@@ -12,6 +12,7 @@ def main():
             frame = bf.drawSmallCircles(frame, circles, maxR=100)
         except (AttributeError, TypeError):
             pass
+        frame = bf.findSquares(gray, frame)
 
         cv2.imshow("frame", frame)
 
