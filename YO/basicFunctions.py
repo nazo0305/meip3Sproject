@@ -36,8 +36,10 @@ def drawSmallCircles(img, circles, maxR):
 
 
 def angle(pt1, pt2, pt0) -> float:
-    # pt0-> pt1およびpt0-> pt2からの
-    # ベクトル間の角度の余弦(コサイン)を算出
+    '''
+    pt0-> pt1およびpt0-> pt2からの
+    ベクトル間の角度の余弦(コサイン)を算出
+    '''
     dx1 = float(pt1[0, 0] - pt0[0, 0])
     dy1 = float(pt1[0, 1] - pt0[0, 1])
     dx2 = float(pt2[0, 0] - pt0[0, 0])
@@ -55,13 +57,13 @@ def findSquares(grayImg, img, cond_area=1000):
     _, binImg = cv2.threshold(grayImg, 0, 255, cv2.THRESH_OTSU)
     # 輪郭取得
     dummy1, contours, dummy2 = cv2.findContours(binImg, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-    for i, cnt in enumerate(contours):
+    for cnt in contours:
         # 輪郭の周囲に比例する精度で輪郭を近似する
         arclen = cv2.arcLength(cnt, True)
         approx = cv2.approxPolyDP(cnt, arclen*0.02, True)
 
-        # 四角形の輪郭は、近似後に4つの頂点があります。
-        # 比較的広い領域が凸状になります。
+        # 四角形の輪郭は、近似後に4つの頂点がある
+        # 比較的広い領域が凸状になる
 
         # 凸性の確認
         area = abs(cv2.contourArea(approx))
@@ -74,11 +76,11 @@ def findSquares(grayImg, img, cond_area=1000):
                 maxCosine = max(maxCosine, cosine)
 
             # すべての角度の余弦定理が小さい場合
-            # （すべての角度は約90度です）次に、quandrangeを書き込みます
+            # （すべての角度は約90度）次に、quandrangeを書き込む
             # 結果のシーケンスへの頂点
             if maxCosine < 0.3:
-                # 四角判定!!
-                rcnt = approx.reshape(-1, 2) # 四隅の点
+                # 四角判定
+                rcnt = approx.reshape(-1, 2)  # 四隅の点
                 cv2.polylines(img, [rcnt], True, (255, 0, 0),
                               thickness=2, lineType=cv2.LINE_8)
     return img
