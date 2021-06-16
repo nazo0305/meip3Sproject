@@ -56,7 +56,9 @@ def findSquares(grayImg, img, cond_area=1000):
     # 2値画像の作成
     _, binImg = cv2.threshold(grayImg, 0, 255, cv2.THRESH_OTSU)
     # 輪郭取得
-    dummy1, contours, dummy2 = cv2.findContours(binImg, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    dummy1, contours, dummy2 = cv2.findContours(binImg,
+                                                cv2.RETR_LIST,
+                                                cv2.CHAIN_APPROX_SIMPLE)
     for cnt in contours:
         # 輪郭の周囲に比例する精度で輪郭を近似する
         arclen = cv2.arcLength(cnt, True)
@@ -67,7 +69,8 @@ def findSquares(grayImg, img, cond_area=1000):
 
         # 凸性の確認
         area = abs(cv2.contourArea(approx))
-        if approx.shape[0] == 4 and area > cond_area and cv2.isContourConvex(approx):
+        if (approx.shape[0] == 4 and area > cond_area
+                and cv2.isContourConvex(approx)):
             maxCosine = 0
 
             for j in range(2, 5):
@@ -83,6 +86,20 @@ def findSquares(grayImg, img, cond_area=1000):
                 rcnt = approx.reshape(-1, 2)  # 四隅の点
                 cv2.polylines(img, [rcnt], True, (255, 0, 0),
                               thickness=2, lineType=cv2.LINE_8)
+    return img
+
+
+def matchBallTemplate(grayImg, img, template):
+    '''
+    templateの画像サイズと同じサイズで映像に映ることを想定したプログラムのため，
+    今回のようなボールの大きさが変わりうる場合の検出には不適かもしれない．
+    '''
+    w, h = template.shape[::-1]
+    res = cv2.matchTemplate(grayImg, template, cv2.TM_CCOEFF_NORMED)
+    threshold = 0.75
+    loc = np.where(res >= threshold)
+    for pt in zip(*loc[::-1]):
+        cv2.rectangle(img, pt, (pt[0]+w, pt[1]+h), (0, 0, 255), 2)
     return img
 
 
