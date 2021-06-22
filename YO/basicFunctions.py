@@ -2,7 +2,6 @@ import cv2
 import socket
 import numpy as np
 import math
-import matplotlib.pyplot as plt
 
 
 def findCircles(grayImg):
