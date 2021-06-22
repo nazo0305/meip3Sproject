@@ -53,9 +53,11 @@ def findSquares(grayImg, img, cond_area=1000):
     参考:https://qiita.com/sitar-harmonics/items/ac584f99043574670cf3
     長方形を検出し，画像上に青の長方形を描画する．
     '''
+    # 四角形の頂点を戻り値として返す
+    retSquares = []
     # 2値画像の作成
     _, binImg = cv2.threshold(grayImg, 0, 255, cv2.THRESH_OTSU)
-    # 輪郭取得
+    # 輪郭取得con
     dummy1, contours, dummy2 = cv2.findContours(binImg,
                                                 cv2.RETR_LIST,
                                                 cv2.CHAIN_APPROX_SIMPLE)
@@ -86,7 +88,8 @@ def findSquares(grayImg, img, cond_area=1000):
                 rcnt = approx.reshape(-1, 2)  # 四隅の点
                 cv2.polylines(img, [rcnt], True, (255, 0, 0),
                               thickness=2, lineType=cv2.LINE_8)
-    return img
+                retSquares.append(list(rcnt.ravel()))
+    return img, retSquares
 
 
 def matchBallTemplate(grayImg, img, template):
@@ -111,7 +114,7 @@ def sendInfoByUDP(item):
     '''
 
     HOST = '127.0.0.1'
-    PORT = '50007'
+    PORT = 50007
 
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sendItem = str(item)
