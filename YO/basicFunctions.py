@@ -105,6 +105,27 @@ def matchBallTemplate(grayImg, img, template):
     return img
 
 
+def writeSquaresData(squares, sendStr):
+    squareNum = len(squares)
+    if squareNum != 0:
+        sendStr = sendStr + str(squareNum) + "\n"
+        for square in squares:
+            sendStr += "{} {} {} {} {} {} {} {}\n".format(
+                square[0], square[1], square[2], square[3], square[4],
+                square[5], square[6], square[7])
+    print(sendStr)
+    return sendStr
+
+
+def writeCirclesDate(circles, sendStr):
+    sendStr = sendStr + str(len(circles)) + "\n"
+    for circle in circles:
+        sendStr += "{} {} {}\n".format(circle[0][0], circle[0][1],
+                                       circle[0][1])
+    print(sendStr)
+    return sendStr
+
+
 def sendInfoByUDP(item):
     '''
     （仮）
