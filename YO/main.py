@@ -18,7 +18,7 @@ def main():
             circles = bf.findCircles(gray)
             frame = bf.drawSmallCircles(frame, circles, maxR=100)
             # 座標出力
-            sendItem += str(len(circles)) + "\n"
+            sendItem = "c" + str(len(circles)) + "\n"
             for circle in circles:
                 sendItem += "{} {} {}\n".format(circle[0][0],
                                                 circle[0][1],
@@ -35,10 +35,14 @@ def main():
                 sendItem += "{} {} {} {} {} {} {} {}\n".format(
                     square[0], square[1], square[2], square[3], square[4],
                     square[5], square[6], square[7])
+
         # テンプレートマッチング
         # frame = bf.matchBallTemplate(gray, frame, template)
 
+        # UDPでUnityに送信
+        # print(sendItem)
         bf.sendInfoByUDP(sendItem)
+
         cv2.imshow("frame", frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
