@@ -5,7 +5,7 @@ import cv2
 
 def main():
     cap = cv2.VideoCapture(0)
-    subtractor = cv2.createBackgroundSubtractorMOG2()
+    subtractor = cv2.createBackgroundSubtractorMOG2(detectShadows=False)
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
 
     while 1:
@@ -19,7 +19,7 @@ def main():
         diff_morp = cv2.morphologyEx(diff, cv2.MORPH_OPEN, kernel)
         cv2.imshow('diff_morp', diff_morp)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        if cv2.waitKey(30) & 0xFF == ord('q'):
             break
 
     cap.release()
