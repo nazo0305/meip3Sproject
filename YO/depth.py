@@ -9,6 +9,10 @@ import pyrealsense2 as rs
 import numpy as np
 import cv2
 
+# parameters
+threshold_distance = 6000
+
+
 # Configure depth and color streams
 pipeline = rs.pipeline()
 config = rs.config()
@@ -55,7 +59,18 @@ try:
 
         # Convert images to numpy arrays
         depth_image = np.asanyarray(depth_frame.get_data())
+        # print(depth_image)
         color_image = np.asanyarray(color_frame.get_data())
+
+        # マスクの作成
+        mask = depth_image.copy()
+        mask = np.where(mask == 0, 9999, mask)
+        mask = np.where(mask < threshold_distance, 1, 0)
+        # print(mask)
+        mask_img = np.zeros([mask.shape[0], mask.shape[1], 3])
+        mask_img[:, :, 0] = mask
+        mask_img[:, :, 1] = mask
+        mask_img[:, :, 2] = mask
 
         # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
         depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(
@@ -63,7 +78,7 @@ try:
 
         depth_colormap_dim = depth_colormap.shape
         color_colormap_dim = color_image.shape
-
+        # 深度と色の画像の解像度が異なる場合は，色画像のサイズを変えて深度画像に合わせてから表示する
         # If depth and color resolutions are different, resize color image to match depth image for display
         if depth_colormap_dim != color_colormap_dim:
             resized_color_image = cv2.resize(color_image, dsize=(
@@ -72,9 +87,13 @@ try:
         else:
             images = np.hstack((color_image, depth_colormap))
 
-        # Show images
-        cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        cv2.imshow('RealSense', images)
+        # # Show images
+        # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+        # cv2.imshow('RealSense', images)
+
+        # Show mask image
+        cv2.imshow("mask", mask_img)
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
