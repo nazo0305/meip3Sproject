@@ -58,8 +58,8 @@ def findSquares(grayImg, img, cond_area=1000):
     _, binImg = cv2.threshold(grayImg, 0, 255, cv2.THRESH_OTSU)
     # 輪郭取得con
     contours, dummy = cv2.findContours(binImg,
-                                                cv2.RETR_LIST,
-                                                cv2.CHAIN_APPROX_SIMPLE)
+                                       cv2.RETR_LIST,
+                                       cv2.CHAIN_APPROX_SIMPLE)
     for cnt in contours:
         # 輪郭の周囲に比例する精度で輪郭を近似する
         arclen = cv2.arcLength(cnt, True)

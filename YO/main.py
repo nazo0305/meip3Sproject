@@ -19,7 +19,7 @@ def main():
             sendItem = sendItem + str(len(circles)) + "\n"
             for circle in circles:
                 sendItem += "{} {} {}\n".format(circle[0][0], circle[0][1],
-                                               circle[0][1])
+                                                circle[0][1])
         except (AttributeError, TypeError):
             pass
 
