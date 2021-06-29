@@ -139,3 +139,8 @@ def sendInfoByUDP(item):
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sendItem = str(item)
     client.sendto(sendItem.encode('utf-8'), (HOST, PORT))
+
+
+def drawContour(point, frame):
+    frame = cv2.polylines(frame, [point], True, (0, 0, 255), 2, cv2.LINE_AA)
+    return frame

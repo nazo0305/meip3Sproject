@@ -1,4 +1,5 @@
 import numpy as np
+import basicFunctions as bf
 import cv2
 
 
@@ -13,13 +14,12 @@ def main():
              points, straight_qrcode) = qr.detectAndDecodeMulti(frame)
             if detected:
                 print('QRデータ:{}'.format(decode_info))
-
-            # QRコード認識位置を描画
-            for point in points:
-                # 型の返還
-                point = point.astype(np.int32)
-                print(point)
-                frame = cv2.polylines(frame, [point], True, (0, 0, 255), 2, cv2.LINE_AA)
+                # QRコード認識位置を描画
+                for point in points:
+                    # 型の変換
+                    point = point.astype(np.int32)
+                    print(point)
+                    frame = bf.drawContour(point, frame)
 
         except (AttributeError, TypeError):
             pass
