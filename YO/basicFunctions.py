@@ -57,9 +57,9 @@ def findSquares(grayImg, img, cond_area=1000):
     # 2値画像の作成
     _, binImg = cv2.threshold(grayImg, 0, 255, cv2.THRESH_OTSU)
     # 輪郭取得con
-    dummy1, contours, dummy2 = cv2.findContours(binImg,
-                                                cv2.RETR_LIST,
-                                                cv2.CHAIN_APPROX_SIMPLE)
+    contours, dummy = cv2.findContours(binImg,
+                                       cv2.RETR_LIST,
+                                       cv2.CHAIN_APPROX_SIMPLE)
     for cnt in contours:
         # 輪郭の周囲に比例する精度で輪郭を近似する
         arclen = cv2.arcLength(cnt, True)
@@ -103,6 +103,27 @@ def matchBallTemplate(grayImg, img, template):
     for pt in zip(*loc[::-1]):
         cv2.rectangle(img, pt, (pt[0]+w, pt[1]+h), (0, 0, 255), 2)
     return img
+
+
+def writeSquaresData(squares, sendStr):
+    squareNum = len(squares)
+    if squareNum != 0:
+        sendStr = sendStr + str(squareNum) + "\n"
+        for square in squares:
+            sendStr += "{} {} {} {} {} {} {} {}\n".format(
+                square[0], square[1], square[2], square[3], square[4],
+                square[5], square[6], square[7])
+    print(sendStr)
+    return sendStr
+
+
+def writeCirclesDate(circles, sendStr):
+    sendStr = sendStr + str(len(circles)) + "\n"
+    for circle in circles:
+        sendStr += "{} {} {}\n".format(circle[0][0], circle[0][1],
+                                       circle[0][1])
+    print(sendStr)
+    return sendStr
 
 
 def sendInfoByUDP(item):
