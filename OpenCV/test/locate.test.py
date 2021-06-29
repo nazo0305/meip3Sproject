@@ -13,8 +13,10 @@ def main():
         ret, frame = cap.read()
         cv2.imshow("frame", frame)
 
-        (x, y), r = locate.circle(frame, [200, 200, 200], [255, 255, 255])
-        located = cv2.circle(frame, (int(x), int(y)), int(r), (0, 255, 0))
+        ret = locate.circle(frame, [200, 200, 200], [255, 255, 255])
+        if ret:
+            (x, y), r = ret
+            located = cv2.circle(frame, (int(x), int(y)), int(r), (0, 255, 0))
         cv2.imshow("located", located)
 
         if cv2.waitKey(30) & 0xFF == ord('q'):
