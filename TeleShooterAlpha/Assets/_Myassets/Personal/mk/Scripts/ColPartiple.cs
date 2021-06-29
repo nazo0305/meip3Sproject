@@ -11,8 +11,7 @@ public class ColParticle : MonoBehaviour
 
     void Start()
     {
-        //Particleシステムの取得（子オブジェクトから）
-        particle = GetComponentInChildren<ParticleSystem>();
+      
     }
 
     // Update is called once per frame
@@ -24,7 +23,6 @@ public class ColParticle : MonoBehaviour
     //衝突が発生した場合に実行される
     void OnTriggerEnter(Collider other)
     {
-        
             particle.Play();
     }
 }

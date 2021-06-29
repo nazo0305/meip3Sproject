@@ -10,8 +10,8 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public Vector2[] targetPosition=new Vector2[3];//とりあえず3個
     public int count;//認識してる的の数
     public int target_now;
-    public GameObject[] targetArray= new GameObject[3];//とりあえず3個
-
+    public GameObject[] targetArray= new GameObject[3] { null, null, null };//とりあえず3個
+    public bool[] targetFlag = new bool[3] { false, false, false };
     [SerializeField]GameObject canvas;
 
     // Start is called before the first frame update
@@ -36,13 +36,20 @@ public class TargetManager : MonoBehaviourPunCallbacks
                 target_now++;
             }
         }
-        //目標の数が足りていなければTargetを生成
-        if ( target_now < count)
-        {
-            //的をそれぞれ識別するために番号を振り分けたい
-            TargetGenerate(targetId);
-            target_now++;
-        }
+       
+            for (int i = 0; i < 3; i++)
+            {
+                //的をそれぞれ識別するために番号を振り分けたい
+                if (targetFlag[i] == false)
+                {
+                    TargetGenerate(targetId);
+                    target_now++;
+                }
+
+            }
+          
+           
+        
         TargetMove();
 
     }
@@ -52,7 +59,9 @@ public class TargetManager : MonoBehaviourPunCallbacks
         GameObject Target = PhotonNetwork.Instantiate("Target", targetPosition[targetId], Quaternion.identity);
         //的の目標を検知
         targetArray[targetId] = Target;
+        targetFlag[targetId] = true;
         Target.GetComponent<TargetController>().Id = targetId;
+        Target.GetComponent<TargetController>().myManager = this;
     }
 
 
@@ -66,6 +75,25 @@ public class TargetManager : MonoBehaviourPunCallbacks
             }
             
         }
+    }
+
+    public void AfterDestory(int Id)
+    {
+        StartCoroutine(FlagDown(Id));
+    }
+
+
+
+
+    private IEnumerator FlagDown(int Id)
+    {
+
+        // 3秒間待つ
+        yield return new WaitForSeconds(2);
+        targetArray[Id] = null;
+        targetFlag[Id] = false;
+
+
     }
 
 
