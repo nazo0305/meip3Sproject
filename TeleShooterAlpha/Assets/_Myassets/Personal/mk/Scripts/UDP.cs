@@ -18,7 +18,7 @@ public class UDP : MonoBehaviour
         int LOCA_LPORT = 50007;
 
         udp = new UdpClient(LOCA_LPORT);
-        udp.Client.ReceiveTimeout = 200;
+        udp.Client.ReceiveTimeout = 33;
     }
 
     // Update is called once per frame
