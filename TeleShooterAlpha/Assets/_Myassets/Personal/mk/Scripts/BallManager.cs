@@ -7,16 +7,16 @@ public class BallManager: MonoBehaviourPunCallbacks
 {
     public int ballId;
     public Vector2[] ballPosition = new Vector2[3];//とりあえず3個
-    public int count;
     public int ball_now;
-    public GameObject[] ballArray = new GameObject[3];//とりあえず3個
+    public GameObject[] ballArray = new GameObject[3] { null,null,null };//とりあえず3個
+    public bool[] ballFlag = new bool[3] { false, false, false };
 
-    [SerializeField] GameObject canvas;
+   [SerializeField] GameObject canvas;
 
     // Start is called before the first frame update
     void Start()
     {
-        count = 0;     //認識されている四角形
+      
         ball_now = 0; //的オブジェクトの数(爆発エフェクト等含む)
 
     }
@@ -24,17 +24,18 @@ public class BallManager: MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        //必要ball数を取得
-        count = 1;
-        //ball数を取得
-        ball_now = this.transform.childCount - 1;
-        //目標の数が足りていなければballを生成
-        if (Time.frameCount > 3000 && ball_now < count)
+       
+       for(int i=0;i<3;i++)
         {
             //的をそれぞれ識別するために番号を振り分けたい
-            ballGenerate(ballId);
-            ball_now++;
+            if(ballFlag[i]==false)
+            {
+                ballGenerate(i);
+                ball_now++;
+            }
+            
         }
+        
         ballMove();
 
     }
@@ -43,7 +44,12 @@ public class BallManager: MonoBehaviourPunCallbacks
         //ballを生成する
         GameObject ball = PhotonNetwork.Instantiate("ball", ballPosition[ballId], Quaternion.identity);
         //的の目標を検知
-        ballArray[ballId] = ball;
+        ballArray[ballId]=ball;
+        ballFlag[ballId] = true;
+        ball.GetComponent<BallController>().Id = ballId;
+        ball.GetComponent<BallController>().myManager = this;
+
+
     }
 
 
@@ -57,6 +63,25 @@ public class BallManager: MonoBehaviourPunCallbacks
             }
 
         }
+    }
+
+    public void AfterDestory(int Id)
+    {
+        StartCoroutine(FlagDown(Id));
+    }
+
+
+
+  
+    private IEnumerator FlagDown(int Id)
+    {
+        
+        // 3秒間待つ
+        yield return new WaitForSeconds(2);
+        ballArray[Id] = null;
+        ballFlag[Id] = false;
+
+      
     }
 
 
