@@ -138,6 +138,8 @@ def sendInfoByUDP(item):
 
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sendItem = str(item)
+    if sendItem == "":
+        sendItem = 0
     client.sendto(sendItem.encode('utf-8'), (HOST, PORT))
 
 
@@ -150,4 +152,5 @@ def writeCorners(title, point, sendStr):
     sendStr += "{}".format(title)
     for i in range(len(point)):
         sendStr += " {} {}".format(point[i][0], point[i][1])
+    sendStr += "\n"
     return sendStr

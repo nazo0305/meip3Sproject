@@ -62,20 +62,28 @@ def main(mode):
                 (detected, decode_info,
                  points, straight_qrcode) = qr.detectAndDecodeMulti(frame)
                 if detected:
-                    sendItem += "{}\n".format(len(points))
+                    itemNum = len(points)
+                    NullItemNum = decode_info.count('')
+                    sendItem += "{}\n".format(itemNum-NullItemNum)
                     # QRコード認識位置を描画
                     for i, point in enumerate(points):
                         # 型の変換
                         point = point.astype(np.int32)
-                        sendItem = bf.writeCorners(decode_info[i], point, sendItem)
-                        # print(decode_info[i])
-                        # print(point)
-                        frame = bf.drawContour(point, frame)
+                        if decode_info[i] == "":
+                            # print("undefined QR")
+                            pass
+                        else:
+                            sendItem = bf.writeCorners(decode_info[i], point, sendItem)
+                            # print(decode_info[i])
+                            # print(point)
+                            frame = bf.drawContour(point, frame)
 
             except (AttributeError, TypeError):
                 pass
 
             # UDPでUnityに送信
+            if sendItem == "" or sendItem == " ":
+                sendItem = "0\n"
             print(sendItem)
             # bf.sendInfoByUDP(sendItem)
 
