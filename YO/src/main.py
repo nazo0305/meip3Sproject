@@ -1,4 +1,4 @@
-from typing import ValuesView
+import numpy as np
 import cv2
 import basicFunctions as bf
 
@@ -40,6 +40,7 @@ def main(mode):
     ######### ターゲットモード ###########
     elif mode == "target":
         cap = cv2.VideoCapture(0)
+        qr = cv2.QRCodeDetector()
         while True:
             sendItem = ""
             ret, frame = cap.read()
@@ -50,11 +51,29 @@ def main(mode):
             # 白黒画像の作成
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-            # 矩形検出と描画
-            frame, squares = bf.findSquares(gray, frame)
+            # # 矩形検出と描画
+            # frame, squares = bf.findSquares(gray, frame)
 
-            # 矩形データの書き出し
-            sendItem = bf.writeSquaresData(squares, sendItem)
+            # # 矩形データの書き出し
+            # sendItem = bf.writeSquaresData(squares, sendItem)
+
+            # QRコードの読み込み
+            try:
+                (detected, decode_info,
+                 points, straight_qrcode) = qr.detectAndDecodeMulti(frame)
+                if detected:
+                    sendItem += "{}\n".format(len(points))
+                    # QRコード認識位置を描画
+                    for i, point in enumerate(points):
+                        # 型の変換
+                        point = point.astype(np.int32)
+                        sendItem = bf.writeCorners(decode_info[i], point, sendItem)
+                        # print(decode_info[i])
+                        # print(point)
+                        frame = bf.drawContour(point, frame)
+
+            except (AttributeError, TypeError):
+                pass
 
             # UDPでUnityに送信
             print(sendItem)
@@ -74,5 +93,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[0]  # 0ならshooter, 1ならtarget
+    mode = modes[1]  # 0ならshooter, 1ならtarget
     main(mode)

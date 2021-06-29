@@ -144,3 +144,10 @@ def sendInfoByUDP(item):
 def drawContour(point, frame):
     frame = cv2.polylines(frame, [point], True, (0, 0, 255), 2, cv2.LINE_AA)
     return frame
+
+
+def writeCorners(title, point, sendStr):
+    sendStr += "{}".format(title)
+    for i in range(len(point)):
+        sendStr += " {} {}".format(point[i][0], point[i][1])
+    return sendStr
