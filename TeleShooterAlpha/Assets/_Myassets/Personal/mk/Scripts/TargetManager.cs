@@ -8,7 +8,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
 {
     public int targetId;
     public Vector2[] targetPosition=new Vector2[3];//とりあえず3個
-    public int count;
+    public int count;//認識してる的の数
     public int target_now;
     public GameObject[] targetArray= new GameObject[3];//とりあえず3個
 
@@ -28,9 +28,16 @@ public class TargetManager : MonoBehaviourPunCallbacks
         //必要Target数を取得
         count = 1; //後で消す
         //Target数を取得
-        target_now = this.transform.childCount - 1;
+        target_now =0;
+        foreach(GameObject target in targetArray)
+        {
+            if(target!=null)
+            {
+                target_now++;
+            }
+        }
         //目標の数が足りていなければTargetを生成
-        if (Time.frameCount > 3000 && target_now < count)
+        if ( target_now < count)
         {
             //的をそれぞれ識別するために番号を振り分けたい
             TargetGenerate(targetId);
@@ -42,12 +49,10 @@ public class TargetManager : MonoBehaviourPunCallbacks
     void TargetGenerate(int targetId)
     {
         //Targetを生成する
-        GameObject Target= PhotonNetwork.Instantiate("Target", targetPosition[targetId], Quaternion.identity);
+        GameObject Target = PhotonNetwork.Instantiate("Target", targetPosition[targetId], Quaternion.identity);
         //的の目標を検知
-
-        //Targetが発生する場所を決定する(敵オブジェクトの場所)(現時点ではcanvasの座標)
-        Target.transform.SetParent(canvas.transform, false);
         targetArray[targetId] = Target;
+        Target.GetComponent<TargetController>().Id = targetId;
     }
 
 
