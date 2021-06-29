@@ -7,24 +7,67 @@ def main(mode):
     ############# シューターモード ############
     if mode == "shooter":
         cap = cv2.VideoCapture(0)
+        # 色範囲の指定(HSV)
+        redMin1 = [0, 64, 0]
+        redMax1 = [30, 255, 255]
+        redMin2 = [150, 64, 0]
+        redMax2 = [179, 255, 255]
+        blueMin = [110, 50, 50]
+        blueMax = [130, 255, 255]
+        greenMin = [30, 64, 0]
+        greenMax = [90, 255, 255]
 
+        # frameごとの処理
         while True:
             sendItem = ""
             ret, frame = cap.read()
+            hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
             # 円形検出と描画
-            try:
-                circles = bf.findCircles(gray)
-                frame = bf.drawSmallCircles(frame, circles, maxR=100)
-                # 円データの書き出し
-                # sendItem = bf.writeCirclesData(circles, sendItem)
-                sendItem = sendItem + str(len(circles)) + "\n"
-                for circle in circles:
-                    sendItem += "{} {} {}\n".format(circle[0][0], circle[0][1],
-                                                    circle[0][1])
-            except (AttributeError, TypeError):
-                pass
+            # try:
+            #     circles = bf.findCircles(gray)
+            #     frame = bf.drawSmallCircles(frame, circles, maxR=100)
+            #     # 円データの書き出し
+            #     # sendItem = bf.writeCirclesData(circles, sendItem)
+            #     sendItem = sendItem + str(len(circles)) + "\n"
+            #     for circle in circles:
+            #         sendItem += "{} {} {}\n".format(circle[0][0], circle[0][1],
+            #                                         circle[0][1])
+            # except (AttributeError, TypeError):
+            #     pass
+
+            # 疑似円検出
+            ballNum = 3
+            cv2.ellipse(frame, bf.getCenterAndRadius(hsv, redMin2, redMax2), (0, 255, 255))
+            # 赤色のボール
+            # try:
+            #     center, r = bf.getCenterAndRadius(
+            #         hsv, redMin2, redMax2)
+            #     sendItem += "{} {} {} {}\n".format("R", center[0], center[1], r)
+            # except TypeError:
+            #     ballNum -= 1
+            #     pass
+
+            # # 青色のボール
+            # try:
+            #     center, r = bf.getCenterAndRadius(
+            #         hsv, blueMin, blueMax)
+            #     sendItem += "{} {} {} {}\n".format("B", center[0], center[1], r)
+            # except TypeError:
+            #     ballNum -= 1
+            #     pass
+
+            # # 緑色のボール
+            # try:
+            #     center, r = bf.getCenterAndRadius(
+            #         hsv, greenMin, greenMax)
+            #     sendItem += "{} {} {} {}\n".format("G", center[0], center[1], r)
+            # except TypeError:
+            #     ballNum -= 1
+            #     pass
+
+            sendItem = "{}\n".format(ballNum) + sendItem
 
             # UDPでUnityに送信
             print(sendItem)
@@ -73,7 +116,8 @@ def main(mode):
                             # print("undefined QR")
                             pass
                         else:
-                            sendItem = bf.writeCorners(decode_info[i], point, sendItem)
+                            sendItem = bf.writeCorners(
+                                decode_info[i], point, sendItem)
                             # print(decode_info[i])
                             # print(point)
                             frame = bf.drawContour(point, frame)
@@ -101,5 +145,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[1]  # 0ならshooter, 1ならtarget
+    mode = modes[0]  # 0ならshooter, 1ならtarget
     main(mode)
