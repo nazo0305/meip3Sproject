@@ -14,6 +14,7 @@ def main():
         cv2.imshow("frame", frame)
 
         ret = locate.circle(frame, [200, 200, 200], [255, 255, 255])
+        located = frame
         if ret:
             (x, y), r = ret
             located = cv2.circle(frame, (int(x), int(y)), int(r), (0, 255, 0))
