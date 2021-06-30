@@ -156,7 +156,7 @@ def writeCorners(title, point, sendStr):
     return sendStr
 
 
-# without morphorogy
+# without morphology
 # def getCenterAndRadius(image, lower, upper):
 #     """
 #     @param `image` BGR / HSV color space.
@@ -180,6 +180,7 @@ def writeCorners(title, point, sendStr):
 #     (x, y), (h, w), theta = cv2.fitEllipse(cont)
 #     return ((x, y), min(h, w))
 
+# with morphology
 def getCenterAndRadius(image, lower, upper):
     """
     @param `image` BGR / HSV color space.
