@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3420810330327464698}
   - component: {fileID: 3420810330327464677}
+  - component: {fileID: 983686734893602201}
+  - component: {fileID: 5625643488508645738}
   m_Layer: 0
-  m_Name: TargetGenerator
+  m_Name: TargetManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,4 +56,32 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  targetFlag: 000000
+  destroyFlag: 000000
   canvas: {fileID: 0}
+--- !u!114 &983686734893602201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3420810330327464699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1172c0cb39f757c43b70e11def93edc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ball_Flag: 000000
+  target_Flag: 000000
+--- !u!114 &5625643488508645738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3420810330327464699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa896050846687449e428c5d2a4da23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

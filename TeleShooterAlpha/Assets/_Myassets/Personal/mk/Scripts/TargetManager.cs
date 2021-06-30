@@ -13,6 +13,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public GameObject[] targetArray= new GameObject[3] { null, null, null };//とりあえず3個
     public bool[] targetFlag = new bool[3] { false, false, false };
     public bool[] destroyFlag = new bool[3] { false, false, false };
+    Translate Translate;
     [SerializeField]GameObject canvas;
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     {
         count = 0;     //認識されている四角形
         target_now = 0; //的オブジェクトの数(爆発エフェクト等含む)
+        Translate = this.gameObject.GetComponent < Translate > ();
 
     }
 
@@ -68,7 +70,8 @@ public class TargetManager : MonoBehaviourPunCallbacks
 
     void TargetMove()
     {
-        for(int i=0;i<3;i++)
+        targetPosition = Translate.target_Position_unity;
+        for (int i=0;i<3;i++)
         {
             if(targetArray[i]!=null)
             {
