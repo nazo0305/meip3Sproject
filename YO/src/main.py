@@ -10,11 +10,11 @@ def main(mode):
         # 色範囲の指定(HSV)
         redMin1 = [0, 64, 0]
         redMax1 = [30, 255, 255]
-        redMin2 = [150, 64, 0]
+        redMin2 = [150, 200, 200]
         redMax2 = [179, 255, 255]
-        blueMin = [110, 50, 50]
-        blueMax = [130, 255, 255]
-        greenMin = [30, 64, 0]
+        blueMin = [90, 180, 180]
+        blueMax = [150, 255, 255]
+        greenMin = [30, 150, 150]
         greenMax = [90, 255, 255]
 
         # frameごとの処理
@@ -39,33 +39,34 @@ def main(mode):
 
             # 疑似円検出
             ballNum = 3
-            cv2.ellipse(frame, bf.getCenterAndRadius(hsv, redMin2, redMax2), (0, 255, 255))
+            # cv2.ellipse(frame, bf.getCenterAndRadius(hsv, redMin2, redMax2), (0, 255, 255))
+
             # 赤色のボール
-            # try:
-            #     center, r = bf.getCenterAndRadius(
-            #         hsv, redMin2, redMax2)
-            #     sendItem += "{} {} {} {}\n".format("R", center[0], center[1], r)
-            # except TypeError:
-            #     ballNum -= 1
-            #     pass
+            try:
+                center, r = bf.getCenterAndRadius(
+                    hsv, redMin2, redMax2)
+                sendItem += "{} {} {} {}\n".format("R", center[0], center[1], r)
+            except TypeError:
+                ballNum -= 1
+                pass
 
-            # # 青色のボール
-            # try:
-            #     center, r = bf.getCenterAndRadius(
-            #         hsv, blueMin, blueMax)
-            #     sendItem += "{} {} {} {}\n".format("B", center[0], center[1], r)
-            # except TypeError:
-            #     ballNum -= 1
-            #     pass
+            # 青色のボール
+            try:
+                center, r = bf.getCenterAndRadius(
+                    hsv, blueMin, blueMax)
+                sendItem += "{} {} {} {}\n".format("B", center[0], center[1], r)
+            except TypeError:
+                ballNum -= 1
+                pass
 
-            # # 緑色のボール
-            # try:
-            #     center, r = bf.getCenterAndRadius(
-            #         hsv, greenMin, greenMax)
-            #     sendItem += "{} {} {} {}\n".format("G", center[0], center[1], r)
-            # except TypeError:
-            #     ballNum -= 1
-            #     pass
+            # 緑色のボール
+            try:
+                center, r = bf.getCenterAndRadius(
+                    hsv, greenMin, greenMax)
+                sendItem += "{} {} {} {}\n".format("G", center[0], center[1], r)
+            except TypeError:
+                ballNum -= 1
+                pass
 
             sendItem = "{}\n".format(ballNum) + sendItem
 
