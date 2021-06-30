@@ -12,6 +12,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public int target_now;
     public GameObject[] targetArray= new GameObject[3] { null, null, null };//とりあえず3個
     public bool[] targetFlag = new bool[3] { false, false, false };
+    public bool[] destroyFlag = new bool[3] { false, false, false };
     [SerializeField]GameObject canvas;
 
     // Start is called before the first frame update
@@ -79,6 +80,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
 
     public void AfterDestory(int Id)
     {
+        destroyFlag[Id] = true;
         StartCoroutine(FlagDown(Id));
     }
 
@@ -90,6 +92,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
 
         // 3秒間待つ
         yield return new WaitForSeconds(2);
+        destroyFlag[Id] = true;
         targetArray[Id] = null;
         targetFlag[Id] = false;
 

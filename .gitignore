@@ -9,6 +9,14 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
+TeleShooterAlpha/[Ll]ibrary/
+TeleShooterAlpha/[Tt]emp/
+TeleShooterAlpha/[Oo]bj/
+TeleShooterAlpha/[Bb]uild/
+TeleShooterAlpha/[Bb]uilds/
+TeleShooterAlpha/[Ll]ogs/
+TeleShooterAlpha/[Mm]emoryCaptures/
+
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
