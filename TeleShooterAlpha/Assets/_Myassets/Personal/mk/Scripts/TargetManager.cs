@@ -15,6 +15,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public bool[] destroyFlag = new bool[3] { false, false, false };
     Translate Translate;
     [SerializeField]GameObject canvas;
+    bool joinFlag = false;
 
     // Start is called before the first frame update
     void Start()
@@ -39,30 +40,36 @@ public class TargetManager : MonoBehaviourPunCallbacks
                 target_now++;
             }
         }
-       
+        targetFlag = Translate.target_Flag;
+
+
+        if (joinFlag)
+        {
             for (int i = 0; i < 3; i++)
             {
+
                 //的をそれぞれ識別するために番号を振り分けたい
-                if (targetFlag[i] == false)
+                if (targetFlag[i])
                 {
                     TargetGenerate(targetId);
                     target_now++;
                 }
 
             }
-          
-           
-        
-        TargetMove();
+
+            TargetMove();
+        }
+
 
     }
     void TargetGenerate(int targetId)
     {
+
         //Targetを生成する
         GameObject Target = PhotonNetwork.Instantiate("Target", targetPosition[targetId], Quaternion.identity);
         //的の目標を検知
         targetArray[targetId] = Target;
-        targetFlag[targetId] = true;
+        //targetFlag[targetId] = true;
         Target.GetComponent<TargetController>().Id = targetId;
         Target.GetComponent<TargetController>().myManager = this;
     }
@@ -109,4 +116,9 @@ public class TargetManager : MonoBehaviourPunCallbacks
          var position = new Vector3(0, 0, 0);
          PhotonNetwork.Instantiate("Target", position, Quaternion.identity);
      }*/
+
+    public override void OnConnectedToMaster()
+    {
+        joinFlag = true;
+    }
 }

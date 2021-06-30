@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System;
+using UnityEngine;
 
 public class UDP : MonoBehaviour
 {
@@ -34,12 +30,11 @@ public class UDP : MonoBehaviour
         IPEndPoint remoteEP = null;
         byte[] data = udp.Receive(ref remoteEP);
         string text = Encoding.UTF8.GetString(data);
-        //多分Replaceの処理は分けないと死
+        //多分Replace処理は分けないと死
         string[] arr = text.Split('\n');
-        i++;
-        Debug.Log(text);
         //的の処理
         targetcount = int.Parse(arr[i]);
+        i++;
         for (int j = 0; j < targetcount; j++)
         {
             string[] arr_posi = arr[i].Split(' ');
