@@ -11,7 +11,9 @@ def circle(image, lower, upper):
     """
 
     binary = cv2.inRange(image, numpy.array(lower), numpy.array(upper))
-    contours, hierarchy = cv2.findContours(binary, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 10))
+    morph = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
+    contours, hierarchy = cv2.findContours(morph, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     # cv2.drawContours(image, contours, -1, (0, 0, 255), 3)
 
     if not contours:
