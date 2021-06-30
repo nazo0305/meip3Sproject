@@ -16,6 +16,7 @@ public class PhotonManager: MonoBehaviourPunCallbacks
     {
         // "Room"という名前のルームに参加する（ルームが存在しなければ作成して参加する）
         PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
+        Debug.Log("join");
     }
 
     // ゲームサーバーへの接続が成功した時に呼ばれるコールバック

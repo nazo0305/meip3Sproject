@@ -37,7 +37,7 @@ public class UDP : MonoBehaviour
         //多分Replaceの処理は分けないと死
         string[] arr = text.Split('\n');
         i++;
-
+        Debug.Log(text);
         //的の処理
         targetcount = int.Parse(arr[i]);
         for (int j = 0; j < targetcount; j++)

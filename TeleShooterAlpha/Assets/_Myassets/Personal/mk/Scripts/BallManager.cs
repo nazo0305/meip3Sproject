@@ -10,15 +10,15 @@ public class BallManager: MonoBehaviourPunCallbacks
     public int ball_now;
     public GameObject[] ballArray = new GameObject[3] { null,null,null };//とりあえず3個
     public bool[] ballFlag = new bool[3] { false, false, false };
-
-   [SerializeField] GameObject canvas;
+    Translate Translate;
+    [SerializeField] GameObject canvas;
 
     // Start is called before the first frame update
     void Start()
     {
       
         ball_now = 0; //的オブジェクトの数(爆発エフェクト等含む)
-
+        Translate = this.gameObject.GetComponent<Translate>();
     }
 
     // Update is called once per frame
@@ -55,6 +55,7 @@ public class BallManager: MonoBehaviourPunCallbacks
 
     void ballMove()
     {
+        ballPosition = Translate.ball_Position_unity;
         for (int i = 0; i < 3; i++)
         {
             if (ballArray[i] != null)
