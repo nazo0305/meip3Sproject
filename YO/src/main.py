@@ -12,10 +12,12 @@ def main(mode):
         redMax1 = [30, 255, 255]
         redMin2 = [150, 200, 200]
         redMax2 = [179, 255, 255]
-        blueMin = [90, 180, 180]
+        blueMin = [90, 140, 160]
         blueMax = [150, 255, 255]
-        greenMin = [30, 150, 150]
+        greenMin = [50, 140, 150]
         greenMax = [90, 255, 255]
+        yellowMin = [16, 102, 170]
+        yellowMax = [36, 255, 255]
 
         # frameごとの処理
         while True:
@@ -41,11 +43,20 @@ def main(mode):
             ballNum = 3
             # cv2.ellipse(frame, bf.getCenterAndRadius(hsv, redMin2, redMax2), (0, 255, 255))
 
-            # 赤色のボール
+            # # 赤色のボール
+            # try:
+            #     center, r = bf.getCenterAndRadius(
+            #         hsv, redMin2, redMax2)
+            #     sendItem += "{} {} {} {}\n".format("R", center[0], center[1], r)
+            # except TypeError:
+            #     ballNum -= 1
+            #     pass
+
+            # 黄色のボール
             try:
                 center, r = bf.getCenterAndRadius(
-                    hsv, redMin2, redMax2)
-                sendItem += "{} {} {} {}\n".format("R", center[0], center[1], r)
+                    hsv, yellowMin, yellowMax)
+                sendItem += "{} {} {} {}\n".format("Y", center[0], center[1], r)
             except TypeError:
                 ballNum -= 1
                 pass
@@ -68,7 +79,7 @@ def main(mode):
                 ballNum -= 1
                 pass
 
-            sendItem = "{}\n".format(ballNum) + sendItem
+            sendItem = "0\n{}\n".format(ballNum) + sendItem
 
             # UDPでUnityに送信
             print(sendItem)
@@ -129,8 +140,8 @@ def main(mode):
             # UDPでUnityに送信
             if sendItem == "" or sendItem == " ":
                 sendItem = "0\n"
-            print(sendItem)
-            # bf.sendInfoByUDP(sendItem)
+            # print(sendItem)
+            bf.sendInfoByUDP(sendItem)
 
             cv2.imshow("frame", frame)
 
@@ -146,5 +157,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[1]  # 0ならshooter, 1ならtarget
+    mode = modes[0]  # 0ならshooter, 1ならtarget
     main(mode)
