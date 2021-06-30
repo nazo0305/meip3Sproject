@@ -139,7 +139,9 @@ def main(mode):
 
             # UDPでUnityに送信
             if sendItem == "" or sendItem == " ":
-                sendItem = "0\n"
+                sendItem += "0\n"
+            
+            sendItem += "0\n"
             # print(sendItem)
             bf.sendInfoByUDP(sendItem)
 
@@ -157,5 +159,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[0]  # 0ならshooter, 1ならtarget
+    mode = modes[1]  # 0ならshooter, 1ならtarget
     main(mode)
