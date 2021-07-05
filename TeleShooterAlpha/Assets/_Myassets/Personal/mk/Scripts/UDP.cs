@@ -66,8 +66,8 @@ public class UDP : MonoBehaviour
 
         for (i = 0; i < 3; i++)
         {
-            ball_infoFlag[i] = false;
-            target_infoFlag[i] = false;
+            //ball_infoFlag[i] = false;
+            //target_infoFlag[i] = false;
 
         }
       

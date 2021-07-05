@@ -30,6 +30,12 @@ public class TargetManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        for(int i=0;i<3; i++)
+        {
+            //Debug.Log(targetFlag[i]);
+           // Debug.Log(targetPosition[i]);
+        }
+       
         //必要Target数を取得
         count = 1; //後で消す
         //Target数を取得
@@ -47,7 +53,8 @@ public class TargetManager : MonoBehaviourPunCallbacks
         {
             for (int i = 0; i < 3; i++)
             {
-
+                Debug.Log("Translate.target_Flag[i]="+Translate.target_Flag[i]);
+                Debug.Log("isGenerate=" + Translate.target_Flag[i] + !(targetFlag[i]));
                 //的をそれぞれ識別するために番号を振り分けたい
                 if (Translate.target_Flag[i] && !(targetFlag[i]))
                 {
@@ -67,6 +74,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
         targetPosition = Translate.target_Position_unity;
         //Targetを生成する
         GameObject Target = PhotonNetwork.Instantiate("Target", targetPosition[targetId], Quaternion.identity);
+        Debug.Log("a");
         //的の目標を検知
         targetArray[targetId] = Target;
         //targetFlag[targetId] = true;
@@ -142,5 +150,6 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         joinFlag = true;
+        Debug.Log("joined");
     }
 }
