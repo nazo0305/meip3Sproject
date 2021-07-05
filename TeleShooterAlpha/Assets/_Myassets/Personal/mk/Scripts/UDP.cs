@@ -54,20 +54,22 @@ public class UDP : MonoBehaviour
         i++;
         for (int j = 0; j < ballcount; j++)
         {
+            
             string[] arr_posi = arr[i].Split(' ');
             int ball_infoID = int.Parse(arr_posi[0]);
             ball_infoFlag[ball_infoID] = true;
-            for (int k = 1; k < 2; k++)
+            for (int k = 1; k < 3; k++)
             {
                 ball_infoPosition[ball_infoID, k - 1] = float.Parse(arr_posi[k]);
             }
+            
             i++;
         }
 
         for (i = 0; i < 3; i++)
         {
-            ball_infoFlag[i] = false;
-            target_infoFlag[i] = false;
+           // ball_infoFlag[i] = false;
+            //target_infoFlag[i] = false;
 
         }
       

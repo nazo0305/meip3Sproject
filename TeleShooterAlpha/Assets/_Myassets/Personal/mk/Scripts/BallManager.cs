@@ -43,7 +43,7 @@ public class BallManager: MonoBehaviourPunCallbacks
     {
         //ballを生成する
         ballPosition = Translate.ball_Position_unity;
-        GameObject ball = PhotonNetwork.Instantiate("ball", ballPosition[ballId], Quaternion.identity);
+        GameObject ball = PhotonNetwork.Instantiate("Ball", ballPosition[ballId], Quaternion.identity);
         //的の目標を検知
         ballArray[ballId]=ball;
         ballFlag[ballId] = true;
