@@ -142,7 +142,7 @@ def main(mode):
                 sendItem += "0\n"
             
             sendItem += "0\n"
-            # print(sendItem)
+            #print(sendItem)
             bf.sendInfoByUDP(sendItem)
 
             cv2.imshow("frame", frame)
