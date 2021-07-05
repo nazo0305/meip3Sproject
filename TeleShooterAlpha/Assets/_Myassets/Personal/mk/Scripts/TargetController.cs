@@ -32,7 +32,7 @@ public class TargetController : MonoBehaviourPunCallbacks
 
            
             myManager.AfterDestory(Id);
-            Destroy(this.gameObject);
+           
 
         }
     }

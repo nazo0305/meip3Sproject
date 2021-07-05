@@ -28,7 +28,7 @@ public class BallManager: MonoBehaviourPunCallbacks
        for(int i=0;i<3;i++)
         {
             //的をそれぞれ識別するために番号を振り分けたい
-            if(ballFlag[i]==false)
+            if(Translate.ball_Flag[i] && !(ballFlag[i]))
             {
                 ballGenerate(i);
                 ball_now++;
@@ -42,6 +42,7 @@ public class BallManager: MonoBehaviourPunCallbacks
     void ballGenerate(int ballId)
     {
         //ballを生成する
+        ballPosition = Translate.ball_Position_unity;
         GameObject ball = PhotonNetwork.Instantiate("ball", ballPosition[ballId], Quaternion.identity);
         //的の目標を検知
         ballArray[ballId]=ball;

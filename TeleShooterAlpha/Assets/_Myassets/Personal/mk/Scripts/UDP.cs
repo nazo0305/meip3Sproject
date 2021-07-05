@@ -21,6 +21,7 @@ public class UDP : MonoBehaviour
 
         udp = new UdpClient(LOCA_LPORT);
         udp.Client.ReceiveTimeout = 200;
+        Debug.Log("target_infoFlag=" + target_infoFlag[0]);
     }
 
     // Update is called once per frame
@@ -40,6 +41,7 @@ public class UDP : MonoBehaviour
             string[] arr_posi = arr[i].Split(' ');
             int target_infoID = int.Parse(arr_posi[0]);
             target_infoFlag[target_infoID] = true;
+            Debug.Log("target_infoFlag=" + target_infoID + target_infoFlag[target_infoID]);
             for (int k = 1; k < 9; k++)
             {
                 target_infoPosition[target_infoID, k - 1] = float.Parse(arr_posi[k]);
@@ -61,5 +63,13 @@ public class UDP : MonoBehaviour
             }
             i++;
         }
+
+        for (i = 0; i < 3; i++)
+        {
+            ball_infoFlag[i] = false;
+            target_infoFlag[i] = false;
+
+        }
+      
     }
 }
