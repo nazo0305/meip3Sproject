@@ -93,7 +93,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public void AfterDestory(int Id)
     {
         destroyFlag[Id] = true;
-        Destroy(targetArray[Id]);
+      
         StartCoroutine(FlagDown(Id));
     }
 

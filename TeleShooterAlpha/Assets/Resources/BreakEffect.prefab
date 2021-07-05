@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2252286420558444153}
   - component: {fileID: 2252286420558444157}
   - component: {fileID: 2252286420558444158}
+  - component: {fileID: 2868259401176564154}
   m_Layer: 0
   m_Name: BreakEffect
   m_TagString: Untagged
@@ -4794,3 +4795,15 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &2868259401176564154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252286420558444154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7278095e48aa8c14998c9873e7b97c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
