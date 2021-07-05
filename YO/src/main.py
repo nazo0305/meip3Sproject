@@ -16,7 +16,7 @@ def main(mode):
         blueMax = [150, 255, 255]
         greenMin = [50, 140, 150]
         greenMax = [90, 255, 255]
-        yellowMin = [16, 102, 170]
+        yellowMin = [16, 80, 70]
         yellowMax = [36, 255, 255]
 
         # frameごとの処理
@@ -159,5 +159,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[1]  # 0ならshooter, 1ならtarget
+    mode = modes[0]  # 0ならshooter, 1ならtarget
     main(mode)
