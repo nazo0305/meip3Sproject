@@ -61,13 +61,14 @@ public class UDP : MonoBehaviour
             {
                 ball_infoPosition[ball_infoID, k - 1] = float.Parse(arr_posi[k]);
             }
+            Debug.Log(ball_infoPosition[ball_infoID, 1]);
             i++;
         }
 
         for (i = 0; i < 3; i++)
         {
-            ball_infoFlag[i] = false;
-            target_infoFlag[i] = false;
+           // ball_infoFlag[i] = false;
+            //target_infoFlag[i] = false;
 
         }
       
