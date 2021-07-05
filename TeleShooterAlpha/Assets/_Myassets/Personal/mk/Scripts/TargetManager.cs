@@ -16,6 +16,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     Translate Translate;
     [SerializeField]GameObject canvas;
     bool joinFlag = false;
+    float[] TimeUntilVanish=new float[3];
 
     // Start is called before the first frame update
     void Start()
@@ -40,18 +41,17 @@ public class TargetManager : MonoBehaviourPunCallbacks
                 target_now++;
             }
         }
-        targetFlag = Translate.target_Flag;
 
-
+        CheckVanish();
         if (joinFlag)
         {
             for (int i = 0; i < 3; i++)
             {
 
                 //的をそれぞれ識別するために番号を振り分けたい
-                if (targetFlag[i])
+                if (Translate.target_Flag[i] && !(targetFlag[i]))
                 {
-                    TargetGenerate(targetId);
+                    TargetGenerate(i);
                     target_now++;
                 }
 
@@ -64,7 +64,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     }
     void TargetGenerate(int targetId)
     {
-
+        targetPosition = Translate.target_Position_unity;
         //Targetを生成する
         GameObject Target = PhotonNetwork.Instantiate("Target", targetPosition[targetId], Quaternion.identity);
         //的の目標を検知
@@ -72,6 +72,8 @@ public class TargetManager : MonoBehaviourPunCallbacks
         //targetFlag[targetId] = true;
         Target.GetComponent<TargetController>().Id = targetId;
         Target.GetComponent<TargetController>().myManager = this;
+        targetFlag[targetId] = true;
+        destroyFlag[targetId] = false;
     }
 
 
@@ -91,6 +93,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public void AfterDestory(int Id)
     {
         destroyFlag[Id] = true;
+        Destroy(targetArray[Id]);
         StartCoroutine(FlagDown(Id));
     }
 
@@ -116,6 +119,25 @@ public class TargetManager : MonoBehaviourPunCallbacks
          var position = new Vector3(0, 0, 0);
          PhotonNetwork.Instantiate("Target", position, Quaternion.identity);
      }*/
+
+    void CheckVanish()
+    {
+        for (int i = 0;i< 3;i++)
+        {
+            if(targetFlag[i] && !(Translate.target_Flag[i]))
+            {
+                TimeUntilVanish[i] += Time.deltaTime;
+                if(TimeUntilVanish[i]>1f)
+                {
+                    AfterDestory(i);
+                }
+            }
+            else
+            {
+                TimeUntilVanish[i] = 0;
+            }
+        }
+    }
 
     public override void OnConnectedToMaster()
     {
