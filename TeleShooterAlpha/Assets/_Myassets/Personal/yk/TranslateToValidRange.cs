@@ -10,14 +10,15 @@ public class TranslateToValidRange : MonoBehaviour
 {
     private static float shrink_x = 6.4F;
     private static float shrink_y = 4.8F;
-    private static Vector2 reduction_rate;
-    private static Vector2 origin;
+    public static Vector2 reduction_rate;
+    public static Vector2 origin;
     public static Vector2 position, raw_vector;
     public static Vector2[] ball_Position = new Vector2[3];
     public static Vector2[] target_Position = new Vector2[3];
     public static Vector2 upperleft, lowerleft, lowerright, upperright;
     public Vector2[,] Corner = new Vector2[3,4];
     GameObject Canvas;
+    GetAnglePoints GetAnglePoints;
     GameObject UDPReciever;
     UDP UDP;
 
@@ -26,7 +27,8 @@ public class TranslateToValidRange : MonoBehaviour
     {
         //変数受け取りを追加
         Canvas = GameObject.Find("Canvas");
-        float[] points = GetAnglePoints.point;
+        GetAnglePoints = Canvas.GetComponent<GetAnglePoints>();
+        float[] points = GetAnglePoints.points;
         upperleft = new Vector2(points[0],points[1]);
         lowerleft = new Vector2(points[2],points[3]);
         lowerright = new Vector2(points[4],points[5]);
@@ -61,7 +63,7 @@ public class TranslateToValidRange : MonoBehaviour
         }
 
         //座標変換
-        position = TransformToValidRange(origin,reduction_rate,raw_vector);
+        //position = TranslateToValidRange(origin,reduction_rate,raw_vector);
     }
 
     public Vector2 NewAxis(Vector2 upperleft,Vector2 lowerleft,Vector2 lowerright,Vector2 upperright){
@@ -91,4 +93,3 @@ public class TranslateToValidRange : MonoBehaviour
             return position;
     }
 }
-

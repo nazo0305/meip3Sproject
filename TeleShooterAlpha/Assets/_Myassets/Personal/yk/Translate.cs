@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +24,8 @@ public class Translate : MonoBehaviour
         UDPReciever = GameObject.Find("UDPReciever");
         UDP = UDPReciever.GetComponent<UDP>();
         TranslateToValidRange = this.GetComponent<TranslateToValidRange>();
+        origin = TranslateToValidRange.origin;
+        reduction_rate = TransformToValidRange.reduction_rate;
     }
 
     // Update is called once per frame
@@ -30,16 +33,13 @@ public class Translate : MonoBehaviour
     {
         //値読み込み
         ball_Position = TranslateToValidRange.ball_Position;
-        target_Position = TranslateToValidRange.target_Position;
-        ball_Flag = UDP.ball_infoFlag;
+        target_infoPosition = TranslateToValidRange.target_Position;
+        ball_flag = UDP.ball_infoFlag;
         target_Flag = UDP.target_infoFlag;
         //変換
-        for(int i = 0; i < 3; i++)
-        {
-            ball_Position_unity[i] = FixTransform(ball_Position[i]);
-            target_Position_unity[i] = FixTransform(target_Position[i]);
-        }
-        
+        ball_Position_unity = TransformToValidRange(origin, reduction_rate, FixTransform(ball_Position));
+        target_Position_unity = TransformToValidRange(origin, reduction_rate, FixTransform(target_Position));
+
     }
 
     public Vector2 FixTransform(Vector2 vector){
@@ -53,4 +53,13 @@ public class Translate : MonoBehaviour
         position = new Vector2(x_new,y_new);
         return position;
     }
+
+    public Vector2 TransformToValidRange(Vector2 origin,Vector2 reduction_rate,Vector2 raw_vector){
+        float x_new, y_new;
+        x_new = (raw_vector[0]-origin[0])/reduction_rate[0];
+        y_new = (raw_vector[1]-origin[1])/reduction_rate[1];
+        Vector2 position = new Vector2(x_new, y_new);
+        return position;
+    }
+
 }
