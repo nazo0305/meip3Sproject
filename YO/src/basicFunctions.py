@@ -192,7 +192,8 @@ def getCenterAndRadius(image, lower, upper):
     binary = cv2.inRange(image, np.array(lower), np.array(upper))
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 10))
     morph = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
-    contours, hierarchy = cv2.findContours(morph, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(
+        morph, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     # cv2.drawContours(image, contours, -1, (0, 0, 255), 3)
 
     if not contours:
@@ -204,3 +205,32 @@ def getCenterAndRadius(image, lower, upper):
 
     (x, y), (h, w), theta = cv2.fitEllipse(cont)
     return ((x, y), min(h, w))
+
+
+def getRectByColor(image, lower, upper):
+    binary = cv2.inRange(image, np.array(lower), np.array(upper))
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 10))
+    morph = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
+    contours, _ = cv2.findContours(
+        morph, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+    if not contours:
+        return None
+
+    cont = max(contours, key=cv2.contourArea)
+    if len(cont) < 5:
+        return None
+
+    M = cv2.moments(cont)
+    cx = int(M['m10']/M['m00'])
+    cy = int(M['m01']/M['m00'])
+    return cx, cy
+
+
+def calculateRectCornerByCenter(cx, cy):
+    rectWidth = 100
+    rectHeight = 100
+    return np.array([[cx-rectWidth//2, cy-rectWidth//2],
+                     [cx-rectWidth//2, cy+rectWidth//2],
+                     [cx+rectWidth//2, cy+rectWidth//2],
+                     [cx+rectWidth//2, cy-rectWidth//2]])

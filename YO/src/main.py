@@ -3,21 +3,23 @@ import cv2
 import basicFunctions as bf
 
 
+# 色範囲の指定(HSV)
+redMin1 = [0, 64, 0]
+redMax1 = [30, 255, 255]
+redMin2 = [150, 200, 200]
+redMax2 = [179, 255, 255]
+blueMin = [90, 140, 160]
+blueMax = [150, 255, 255]
+greenMin = [50, 140, 150]
+greenMax = [90, 255, 255]
+yellowMin = [16, 80, 70]
+yellowMax = [36, 255, 255]
+
+
 def main(mode):
     ############# シューターモード ############
     if mode == "shooter":
         cap = cv2.VideoCapture(0)
-        # 色範囲の指定(HSV)
-        redMin1 = [0, 64, 0]
-        redMax1 = [30, 255, 255]
-        redMin2 = [150, 200, 200]
-        redMax2 = [179, 255, 255]
-        blueMin = [90, 140, 160]
-        blueMax = [150, 255, 255]
-        greenMin = [50, 140, 150]
-        greenMax = [90, 255, 255]
-        yellowMin = [16, 80, 70]
-        yellowMax = [36, 255, 255]
 
         # frameごとの処理
         while True:
@@ -95,16 +97,18 @@ def main(mode):
     ######### ターゲットモード ###########
     elif mode == "target":
         cap = cv2.VideoCapture(0)
-        qr = cv2.QRCodeDetector()
+        # qr = cv2.QRCodeDetector()
         while True:
+            rectCount = 0
             sendItem = ""
             ret, frame = cap.read()
+            hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             # 画像を読み込めなければ終了
             if ret is False:
                 break
 
-            # 白黒画像の作成
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # # 白黒画像の作成
+            # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
             # # 矩形検出と描画
             # frame, squares = bf.findSquares(gray, frame)
@@ -112,35 +116,74 @@ def main(mode):
             # # 矩形データの書き出し
             # sendItem = bf.writeSquaresData(squares, sendItem)
 
-            # QRコードの読み込み
-            try:
-                (detected, decode_info,
-                 points, straight_qrcode) = qr.detectAndDecodeMulti(frame)
-                if detected:
-                    itemNum = len(points)
-                    NullItemNum = decode_info.count('')
-                    sendItem += "{}\n".format(itemNum-NullItemNum)
-                    # QRコード認識位置を描画
-                    for i, point in enumerate(points):
-                        # 型の変換
-                        point = point.astype(np.int32)
-                        if decode_info[i] == "":
-                            # print("undefined QR")
-                            pass
-                        else:
-                            sendItem = bf.writeCorners(
-                                decode_info[i], point, sendItem)
-                            # print(decode_info[i])
-                            # print(point)
-                            frame = bf.drawContour(point, frame)
+            # # QRコードの読み込み
+            # try:
+            #     (detected, decode_info,
+            #      points, straight_qrcode) = qr.detectAndDecodeMulti(frame)
+            #     if detected:
+            #         itemNum = len(points)
+            #         NullItemNum = decode_info.count('')
+            #         sendItem += "{}\n".format(itemNum-NullItemNum)
+            #         # QRコード認識位置を描画
+            #         for i, point in enumerate(points):
+            #             # 型の変換
+            #             point = point.astype(np.int32)
+            #             if decode_info[i] == "":
+            #                 # print("undefined QR")
+            #                 pass
+            #             else:
+            #                 sendItem = bf.writeCorners(
+            #                     decode_info[i], point, sendItem)
+            #                 # print(decode_info[i])
+            #                 # print(point)
+            #                 frame = bf.drawContour(point, frame)
 
-            except (AttributeError, TypeError):
+            # except (AttributeError, TypeError):
+            #     pass
+
+            # get Rectangle Position by Color
+            ## yellow
+            try:
+                cx, cy = bf.getRectByColor(hsv, yellowMin, yellowMax)
+                point = bf.calculateRectCornerByCenter(cx, cy)
+                point = point.astype(np.int32)
+                frame = bf.drawContour(point, frame)
+                sendItem = bf.writeCorners("0", point, sendItem)
+                rectCount += 1
+
+            except TypeError:
+                pass
+
+            ## blue
+            try:
+                cx, cy = bf.getRectByColor(hsv, blueMin, blueMax)
+                point = bf.calculateRectCornerByCenter(cx, cy)
+                point = point.astype(np.int32)
+                frame = bf.drawContour(point, frame)
+                sendItem = bf.writeCorners("1", point, sendItem)
+                rectCount += 1
+
+            except TypeError:
+                pass
+
+            ## green
+            try:
+                cx, cy = bf.getRectByColor(hsv, greenMin, greenMax)
+                point = bf.calculateRectCornerByCenter(cx, cy)
+                point = point.astype(np.int32)
+                frame = bf.drawContour(point, frame)
+                sendItem = bf.writeCorners("2", point, sendItem)
+                rectCount += 1
+
+            except TypeError:
                 pass
 
             # UDPでUnityに送信
-            if sendItem == "" or sendItem == " ":
-                sendItem += "0\n"
-            
+            # if sendItem == "" or sendItem == " ":
+            #     sendItem += "0\n"
+
+            sendItem = "{}\n".format(rectCount) + sendItem
+
             sendItem += "0\n"
             print(sendItem)
             bf.sendInfoByUDP(sendItem)
@@ -159,5 +202,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[0]  # 0ならshooter, 1ならtarget
+    mode = modes[1]  # 0ならshooter, 1ならtarget
     main(mode)
