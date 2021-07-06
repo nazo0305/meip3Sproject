@@ -68,7 +68,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3420810330327464699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1172c0cb39f757c43b70e11def93edc4, type: 3}
+  m_Script: {fileID: 11500000, guid: a909aa4722ca2e048988172a3645a7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ball_Flag: 000000
@@ -82,6 +82,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3420810330327464699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa896050846687449e428c5d2a4da23, type: 3}
+  m_Script: {fileID: 11500000, guid: cf77f487256d6f84686a527f4aa60c4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

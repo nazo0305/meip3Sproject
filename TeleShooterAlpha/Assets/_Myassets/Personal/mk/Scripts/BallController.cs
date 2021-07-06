@@ -25,15 +25,19 @@ public class BallController : MonoBehaviourPunCallbacks
 
     void OnTriggerStay(Collider other)
     {
-        colideTime += Time.deltaTime;
-        if (colideTime > destroyTime)
+        if(other.gameObject.tag == "Target")
         {
-            PhotonNetwork.Instantiate("BreakEffect", this.gameObject.transform.position, Quaternion.identity);
-           
-            myManager.AfterDestory(Id);
-            Destroy(this.gameObject);
+            colideTime += Time.deltaTime;
+            if (colideTime > destroyTime)
+            {
+                PhotonNetwork.Instantiate("BreakEffect", this.gameObject.transform.position, Quaternion.identity);
+                myManager.AfterDestory(Id);
+                Destroy(this.gameObject);
+
+            }
 
         }
+       
     }
 
     void OnTriggerExit(Collider other)
@@ -41,6 +45,7 @@ public class BallController : MonoBehaviourPunCallbacks
         colideTime = 0;
         // 3D同士が離れた瞬間の１回のみ呼び出される処理
     }
+
 
   
 }
