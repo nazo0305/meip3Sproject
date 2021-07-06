@@ -2,13 +2,14 @@
 using System.Collections;
 using System.IO.Ports;
 using System.Threading;
+using System.Text;
 
 public class SerialHandler : MonoBehaviour
 {
 	public delegate void SerialDataReceivedEventHandler(string message);
 	public event SerialDataReceivedEventHandler OnDataReceived;
 
-	public string portName = "COM1"; // ポート名(Macだと/dev/tty.usbmodem1421など)
+	public string portName = "COM3"; // ポート名(Macだと/dev/tty.usbmodem1421など)
 	public int baudRate = 9600;  // ボーレート(Arduinoに記述したものに合わせる)
 
 	private SerialPort serialPort_;
@@ -73,6 +74,7 @@ public class SerialHandler : MonoBehaviour
 		{
 			try
 			{
+				serialPort_.Encoding = System.Text.Encoding.GetEncoding(65001);
 				message_ = serialPort_.ReadLine();
 				isNewMessageReceived_ = true;
 			}
