@@ -56,7 +56,7 @@ def main(mode):
             try:
                 center, r = bf.getCenterAndRadius(
                     hsv, yellowMin, yellowMax)
-                sendItem += "{} {} {} {}\n".format("Y", center[0], center[1], r)
+                sendItem += "{} {} {} {}\n".format("0", center[0], center[1], r)
             except TypeError:
                 ballNum -= 1
                 pass
@@ -65,7 +65,7 @@ def main(mode):
             try:
                 center, r = bf.getCenterAndRadius(
                     hsv, blueMin, blueMax)
-                sendItem += "{} {} {} {}\n".format("B", center[0], center[1], r)
+                sendItem += "{} {} {} {}\n".format("1", center[0], center[1], r)
             except TypeError:
                 ballNum -= 1
                 pass
@@ -74,7 +74,7 @@ def main(mode):
             try:
                 center, r = bf.getCenterAndRadius(
                     hsv, greenMin, greenMax)
-                sendItem += "{} {} {} {}\n".format("G", center[0], center[1], r)
+                sendItem += "{} {} {} {}\n".format("2", center[0], center[1], r)
             except TypeError:
                 ballNum -= 1
                 pass
@@ -83,7 +83,7 @@ def main(mode):
 
             # UDPでUnityに送信
             print(sendItem)
-            # bf.sendInfoByUDP(sendItem)
+            bf.sendInfoByUDP(sendItem)
 
             cv2.imshow("frame", frame)
 
@@ -142,7 +142,7 @@ def main(mode):
                 sendItem += "0\n"
             
             sendItem += "0\n"
-            #print(sendItem)
+            print(sendItem)
             bf.sendInfoByUDP(sendItem)
 
             cv2.imshow("frame", frame)
