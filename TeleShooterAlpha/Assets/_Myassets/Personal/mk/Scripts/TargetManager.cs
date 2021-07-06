@@ -93,7 +93,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public void AfterDestory(int Id)
     {
         destroyFlag[Id] = true;
-      
+        this.gameObject.GetComponent<ScoreCount>().AddScore();
         StartCoroutine(FlagDown(Id));
     }
 

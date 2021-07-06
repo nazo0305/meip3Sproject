@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8795258157914743823}
   - component: {fileID: 830285980776181778}
-  - component: {fileID: 8867351515981128883}
   - component: {fileID: 9081745336394579993}
+  - component: {fileID: 877267293598247164}
   m_Layer: 0
   m_Name: BallManager
   m_TagString: Untagged
@@ -42,23 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8795258157914743822}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1172c0cb39f757c43b70e11def93edc4, type: 3}
+  m_Script: {fileID: 11500000, guid: a909aa4722ca2e048988172a3645a7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ball_Flag: 000000
   target_Flag: 000000
---- !u!114 &8867351515981128883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8795258157914743822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa896050846687449e428c5d2a4da23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9081745336394579993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,3 +71,15 @@ MonoBehaviour:
   - {fileID: 0}
   ballFlag: 000000
   canvas: {fileID: 0}
+--- !u!114 &877267293598247164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8795258157914743822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf77f487256d6f84686a527f4aa60c4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

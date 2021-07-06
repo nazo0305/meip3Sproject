@@ -26,16 +26,21 @@ public class TargetController : MonoBehaviourPunCallbacks
     }
     void OnTriggerStay(Collider other)
     {
-        colideTime += Time.deltaTime;
-        if (colideTime > destroyTime)
+        if(other.gameObject.tag=="Ball")
         {
+            colideTime += Time.deltaTime;
+            if (colideTime > destroyTime)
+            {
 
-           
-            myManager.AfterDestory(Id);
-            Destroy(this.gameObject);
 
+                myManager.AfterDestory(Id);
+                Destroy(this.gameObject);
+
+
+            }
 
         }
+        
     }
 
     void OnTriggerExit(Collider other)

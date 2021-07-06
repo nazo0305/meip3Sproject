@@ -12,6 +12,7 @@ public class BallManager: MonoBehaviourPunCallbacks
     public bool[] ballFlag = new bool[3] { false, false, false };
     Translate Translate;
     [SerializeField] GameObject canvas;
+    bool joinFlag=false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,19 +25,24 @@ public class BallManager: MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-       
-       for(int i=0;i<3;i++)
+        if(joinFlag)
         {
-            //的をそれぞれ識別するために番号を振り分けたい
-            if(Translate.ball_Flag[i] && !(ballFlag[i]))
+            for (int i = 0; i < 3; i++)
             {
-                ballGenerate(i);
-                ball_now++;
+                //的をそれぞれ識別するために番号を振り分けたい
+                if (Translate.ball_Flag[i] && !(ballFlag[i]))
+                {
+                    ballGenerate(i);
+                    ball_now++;
+                }
+
             }
-            
+
+            ballMove();
+
         }
-        
-        ballMove();
+       
+      
 
     }
     void ballGenerate(int ballId)
@@ -84,6 +90,11 @@ public class BallManager: MonoBehaviourPunCallbacks
         ballFlag[Id] = false;
 
       
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        joinFlag = true;
     }
 
 
