@@ -35,7 +35,7 @@ public class BallController : MonoBehaviourPunCallbacks
                 if (photonView.IsMine)
                 {
                     myManager.scoreCount.AddScore();
-                    myManager.AfterDestory(Id);
+                    myManager.AfterDestory(Id,true);
 
                 }
                 PhotonNetwork.Instantiate("BreakEffect", this.gameObject.transform.position, Quaternion.identity);

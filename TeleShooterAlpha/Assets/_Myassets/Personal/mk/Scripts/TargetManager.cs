@@ -19,6 +19,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     bool joinFlag = false;
     float[] TimeUntilVanish=new float[3];
     public ScoreCount scoreCount;
+    bool[] waitGenerateFlag= new bool[3] { true, true, true };
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +53,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
             {
 
                 //的をそれぞれ識別するために番号を振り分けたい
-                if (Translate.target_Flag[i] && !(targetFlag[i]))
+                if (Translate.target_Flag[i] && !(targetFlag[i]) && waitGenerateFlag[i])
                 {
 
                     TargetGenerate(i);
@@ -95,11 +96,15 @@ public class TargetManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void AfterDestory(int Id)
+    public void AfterDestory(int Id,bool isColision)
     {
 
         destroyFlag[Id] = true;
-        //StartCoroutine(FlagDown(Id));
+        if(isColision)
+        {
+            StartCoroutine(FlagDown(Id));
+        }
+        
         destroyFlag[Id] = true;
         targetArray[Id] = null;
         targetFlag[Id] = false;
@@ -110,12 +115,11 @@ public class TargetManager : MonoBehaviourPunCallbacks
 
     private IEnumerator FlagDown(int Id)
     {
-
+        waitGenerateFlag[Id] = false;
         // 3秒間待つ
-        yield return new WaitForSeconds(2);
-        destroyFlag[Id] = true;
-        targetArray[Id] = null;
-        targetFlag[Id] = false;
+        yield return new WaitForSeconds(5);
+        waitGenerateFlag[Id] = true;
+
 
 
     }
@@ -143,7 +147,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
                     {
                         targetArray[i].GetComponent<TargetController>().Dest();
                     }
-                    AfterDestory(i);
+                    AfterDestory(i,false);
                     vanishFlag[i] = false;
                     
                 }
