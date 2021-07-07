@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class GetAnglePoints : MonoBehaviour
 {
     [SerializeField]InputField inputField;
-    public static float[] points = new float[8] {0,0,0,480,640,480,640,0};
+    public static float[] points = new float[8] {19,58,0,391,291,629,599,54};
     // Start is called before the first frame update
     /*void Start()
     {
