@@ -16,7 +16,7 @@ public class BallManager: MonoBehaviourPunCallbacks
     bool joinFlag=false;
     public ScoreCount scoreCount;
     float[] TimeUntilVanish = new float[3];
-
+    bool[] waitGenerateFlag = new bool[3] { true, true, true };
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +35,7 @@ public class BallManager: MonoBehaviourPunCallbacks
             for (int i = 0; i < 3; i++)
             {
                 //的をそれぞれ識別するために番号を振り分けたい
-                if (Translate.ball_Flag[i] && !(ballFlag[i]))
+                if (Translate.ball_Flag[i] && !(ballFlag[i]) && waitGenerateFlag[i])
                 {
                     ballGenerate(i);
                     ball_now++;
@@ -79,10 +79,15 @@ public class BallManager: MonoBehaviourPunCallbacks
         }
     }
 
-    public void AfterDestory(int Id)
+    public void AfterDestory(int Id,bool isColision)
     {
-        scoreCount.AddScore();
-        //StartCoroutine(FlagDown(Id));
+        
+        if(isColision)
+        {
+            scoreCount.AddScore();
+            StartCoroutine(FlagDown(Id));
+        }
+        
         ballArray[Id] = null;
         ballFlag[Id] = false;
     }
@@ -92,13 +97,12 @@ public class BallManager: MonoBehaviourPunCallbacks
   
     private IEnumerator FlagDown(int Id)
     {
-        
+        waitGenerateFlag[Id] = false;
         // 3秒間待つ
-        yield return new WaitForSeconds(2);
-        ballArray[Id] = null;
-        ballFlag[Id] = false;
+        yield return new WaitForSeconds(5);
+        waitGenerateFlag[Id] = true;
 
-      
+
     }
 
     void CheckVanish()
@@ -116,7 +120,7 @@ public class BallManager: MonoBehaviourPunCallbacks
                     {
                         ballArray[i].GetComponent<BallController>().Dest();
                     }
-                    AfterDestory(i);
+                    AfterDestory(i,false);
                     vanishFlag[i] = false;
 
                 }

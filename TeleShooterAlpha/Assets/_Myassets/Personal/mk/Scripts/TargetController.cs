@@ -35,10 +35,10 @@ public class TargetController : MonoBehaviourPunCallbacks
                 if (photonView.IsMine)
                 {
                     myManager.scoreCount.AddScore();
-                    myManager.AfterDestory(Id);
+                    myManager.AfterDestory(Id,true);
                    
                 }
-                PhotonNetwork.Destroy(this.gameObject);
+                //PhotonNetwork.Destroy(this.gameObject);
                 Dest();
 
 
