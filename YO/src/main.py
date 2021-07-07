@@ -4,16 +4,16 @@ import basicFunctions as bf
 
 
 # 色範囲の指定(HSV)
-redMin1 = [0, 64, 0]
-redMax1 = [30, 255, 255]
-redMin2 = [150, 200, 200]
-redMax2 = [179, 255, 255]
 blueMin = [90, 140, 160]
 blueMax = [150, 255, 255]
 greenMin = [50, 140, 150]
 greenMax = [90, 255, 255]
 yellowMin = [25, 80, 100]
 yellowMax = [36, 255, 255]
+tgtGreenMin = [32, 100, 100]
+tgtGreenMax = [52, 255, 255]
+tgtBlueMin = [90, 140, 160]
+tgtBlueMax = [150, 255, 255]
 
 
 def main(mode):
@@ -45,29 +45,34 @@ def main(mode):
             ballNum = 3
             # cv2.ellipse(frame, bf.getCenterAndRadius(hsv, redMin2, redMax2), (0, 255, 255))
 
-            # # 赤色のボール
+            # 赤色のボール
+            try:
+                cx, cy, area = bf.detect_red_color(frame)
+                point = bf.calculateRectCornerByCenter(cx, cy)
+                r = np.sqrt(area/np.pi)
+                point = point.astype(np.int32)
+                frame = bf.drawContour(point, frame)
+                sendItem += "{} {} {} {}\n".format("0", int(cx), int(cy), int(r))
+            except TypeError:
+                ballNum -= 1
+
+            # # 黄色のボール
             # try:
             #     center, r = bf.getCenterAndRadius(
-            #         hsv, redMin2, redMax2)
-            #     sendItem += "{} {} {} {}\n".format("R", center[0], center[1], r)
+            #         hsv, yellowMin, yellowMax)
+            #     sendItem += "{} {} {} {}\n".format("0", center[0], center[1], r)
             # except TypeError:
             #     ballNum -= 1
             #     pass
-
-            # 黄色のボール
-            try:
-                center, r = bf.getCenterAndRadius(
-                    hsv, yellowMin, yellowMax)
-                sendItem += "{} {} {} {}\n".format("0", center[0], center[1], r)
-            except TypeError:
-                ballNum -= 1
-                pass
 
             # 青色のボール
             try:
                 center, r = bf.getCenterAndRadius(
                     hsv, blueMin, blueMax)
-                sendItem += "{} {} {} {}\n".format("1", center[0], center[1], r)
+                sendItem += "{} {} {} {}\n".format("1", int(center[0]), int(center[1]), int(r))
+                point = bf.calculateRectCornerByCenter(center[0], center[1])
+                point = point.astype(np.int32)
+                frame = bf.drawContour(point, frame)
             except TypeError:
                 ballNum -= 1
                 pass
@@ -76,7 +81,10 @@ def main(mode):
             try:
                 center, r = bf.getCenterAndRadius(
                     hsv, greenMin, greenMax)
-                sendItem += "{} {} {} {}\n".format("2", center[0], center[1], r)
+                sendItem += "{} {} {} {}\n".format("2", int(center[0]), int(center[1]), int(r))
+                point = bf.calculateRectCornerByCenter(center[0], center[1])
+                point = point.astype(np.int32)
+                frame = bf.drawContour(point, frame)
             except TypeError:
                 ballNum -= 1
                 pass
@@ -142,21 +150,32 @@ def main(mode):
             #     pass
 
             # get Rectangle Position by Color
-            ## yellow
+            ## red
             try:
-                cx, cy = bf.getRectByColor(hsv, yellowMin, yellowMax)
+                cx, cy, _ = bf.detect_red_color(frame)
                 point = bf.calculateRectCornerByCenter(cx, cy)
                 point = point.astype(np.int32)
                 frame = bf.drawContour(point, frame)
                 sendItem = bf.writeCorners("0", point, sendItem)
                 rectCount += 1
-
             except TypeError:
                 pass
 
+            # ## yellow
+            # try:
+            #     cx, cy = bf.getRectByColor(hsv, yellowMin, yellowMax)
+            #     point = bf.calculateRectCornerByCenter(cx, cy)
+            #     point = point.astype(np.int32)
+            #     frame = bf.drawContour(point, frame)
+            #     sendItem = bf.writeCorners("0", point, sendItem)
+            #     rectCount += 1
+
+            # except TypeError:
+            #     pass
+
             ## blue
             try:
-                cx, cy = bf.getRectByColor(hsv, blueMin, blueMax)
+                cx, cy = bf.getRectByColor(hsv, tgtBlueMin, tgtBlueMax)
                 point = bf.calculateRectCornerByCenter(cx, cy)
                 point = point.astype(np.int32)
                 frame = bf.drawContour(point, frame)
@@ -168,7 +187,7 @@ def main(mode):
 
             ## green
             try:
-                cx, cy = bf.getRectByColor(hsv, greenMin, greenMax)
+                cx, cy = bf.getRectByColor(hsv, tgtGreenMin, tgtGreenMax)
                 point = bf.calculateRectCornerByCenter(cx, cy)
                 point = point.astype(np.int32)
                 frame = bf.drawContour(point, frame)
@@ -202,5 +221,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[0]  # 0ならshooter, 1ならtarget
+    mode = modes[1]  # 0ならshooter, 1ならtarget
     main(mode)

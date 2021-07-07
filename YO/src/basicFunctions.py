@@ -243,3 +243,48 @@ def calculateRectCornerByCenter(cx, cy):
                      [cx-rectWidth//2, cy+rectWidth//2],
                      [cx+rectWidth//2, cy+rectWidth//2],
                      [cx+rectWidth//2, cy-rectWidth//2]])
+
+
+def detect_red_color(img):
+    kernel = np.ones((11,11),np.uint8)
+
+    # HSV色空間に変換
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    # 赤色のHSVの値域1
+    hsv_min = np.array([0,122,0])
+    hsv_max = np.array([30,255,255])
+    mask1 = cv2.inRange(hsv, hsv_min, hsv_max)
+
+    # 赤色のHSVの値域2
+    hsv_min = np.array([150,80,80])
+    hsv_max = np.array([179,255,255])
+    mask2 = cv2.inRange(hsv, hsv_min, hsv_max)
+
+    # 赤色領域のマスク（255：赤色、0：赤色以外）    
+    mask = mask1 + mask2
+
+    # morphology
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+
+    # # マスキング処理
+    # masked_img = cv2.bitwise_and(img, img, mask=mask)
+
+    contours, _ = cv2.findContours(
+        mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+    if not contours:
+        return None
+
+    cont = max(contours, key=cv2.contourArea)
+    if len(cont) < 5:
+        return None
+
+    area = cv2.contourArea(cont)
+    if area < 4000:
+        return None
+
+    M = cv2.moments(cont)
+    cx = int(M['m10']/M['m00'])
+    cy = int(M['m01']/M['m00'])
+    return cx, cy, area
