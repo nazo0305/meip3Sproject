@@ -13,6 +13,7 @@ public class BallManager: MonoBehaviourPunCallbacks
     Translate Translate;
     [SerializeField] GameObject canvas;
     bool joinFlag=false;
+    ScoreCount scoreCount;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class BallManager: MonoBehaviourPunCallbacks
       
         ball_now = 0; //的オブジェクトの数(爆発エフェクト等含む)
         Translate = this.gameObject.GetComponent<Translate>();
+        scoreCount = this.gameObject.GetComponent<ScoreCount>();
     }
 
     // Update is called once per frame
@@ -75,6 +77,7 @@ public class BallManager: MonoBehaviourPunCallbacks
 
     public void AfterDestory(int Id)
     {
+        scoreCount.AddScore();
         StartCoroutine(FlagDown(Id));
     }
 
