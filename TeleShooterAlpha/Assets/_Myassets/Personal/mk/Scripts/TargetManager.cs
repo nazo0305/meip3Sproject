@@ -99,13 +99,14 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public void AfterDestory(int Id,bool isColision)
     {
 
-        destroyFlag[Id] = true;
+        
         if(isColision)
         {
+            scoreCount.AddScore();
             StartCoroutine(FlagDown(Id));
         }
         
-        destroyFlag[Id] = true;
+        
         targetArray[Id] = null;
         targetFlag[Id] = false;
     }
@@ -115,9 +116,12 @@ public class TargetManager : MonoBehaviourPunCallbacks
 
     private IEnumerator FlagDown(int Id)
     {
+        destroyFlag[Id] = true;
         waitGenerateFlag[Id] = false;
         // 3秒間待つ
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2);
+        destroyFlag[Id] = false;
+        yield return new WaitForSeconds(3);
         waitGenerateFlag[Id] = true;
 
 

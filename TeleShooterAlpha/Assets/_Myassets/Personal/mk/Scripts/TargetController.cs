@@ -38,7 +38,7 @@ public class TargetController : MonoBehaviourPunCallbacks
                     myManager.AfterDestory(Id,true);
                    
                 }
-                PhotonNetwork.Destroy(this.gameObject);
+                //PhotonNetwork.Destroy(this.gameObject);
                 Dest();
 
 
