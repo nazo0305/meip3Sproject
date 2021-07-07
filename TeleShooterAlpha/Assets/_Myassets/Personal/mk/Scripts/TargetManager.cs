@@ -13,11 +13,12 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public GameObject[] targetArray= new GameObject[3] { null, null, null };//とりあえず3個
     public bool[] targetFlag = new bool[3] { false, false, false };
     public bool[] destroyFlag = new bool[3] { false, false, false };
+    public bool[] vanishFlag = new bool[3] { true,true,true};
     Translate Translate;
     [SerializeField]GameObject canvas;
     bool joinFlag = false;
     float[] TimeUntilVanish=new float[3];
-    ScoreCount scoreCount;
+    public ScoreCount scoreCount;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +54,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
                 //的をそれぞれ識別するために番号を振り分けたい
                 if (Translate.target_Flag[i] && !(targetFlag[i]))
                 {
+
                     TargetGenerate(i);
                     target_now++;
                 }
@@ -76,6 +78,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
         Target.GetComponent<TargetController>().myManager = this;
         targetFlag[targetId] = true;
         destroyFlag[targetId] = false;
+        vanishFlag[targetId] = true;
     }
 
 
@@ -94,9 +97,12 @@ public class TargetManager : MonoBehaviourPunCallbacks
 
     public void AfterDestory(int Id)
     {
+
         destroyFlag[Id] = true;
-        scoreCount.AddScore();
-        StartCoroutine(FlagDown(Id));
+        //StartCoroutine(FlagDown(Id));
+        destroyFlag[Id] = true;
+        targetArray[Id] = null;
+        targetFlag[Id] = false;
     }
 
 
@@ -129,9 +135,17 @@ public class TargetManager : MonoBehaviourPunCallbacks
             if(targetFlag[i] && !(Translate.target_Flag[i]))
             {
                 TimeUntilVanish[i] += Time.deltaTime;
-                if(TimeUntilVanish[i]>1f)
+                Debug.Log("vanish");
+                if(TimeUntilVanish[i]>0.1f)
                 {
+                   
+                    if(vanishFlag[i])
+                    {
+                        targetArray[i].GetComponent<TargetController>().Dest();
+                    }
                     AfterDestory(i);
+                    vanishFlag[i] = false;
+                    
                 }
             }
             else
