@@ -106,6 +106,15 @@ def matchBallTemplate(grayImg, img, template):
 
 
 def writeSquaresData(squares, sendStr):
+    '''
+    認識した矩形のデータをUDP通信で送るフォーマットにして記入する
+
+    Parameters
+    ----------
+    squares: Numpy.array
+    sendStr: str
+        UDP通信で送る文字列データ
+    '''
     squareNum = len(squares)
     if squareNum != 0:
         sendStr = sendStr + str(squareNum) + "\n"
