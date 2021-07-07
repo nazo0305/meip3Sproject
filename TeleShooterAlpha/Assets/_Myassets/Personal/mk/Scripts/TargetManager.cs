@@ -144,7 +144,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
             {
                 TimeUntilVanish[i] += Time.deltaTime;
                 Debug.Log("vanish");
-                if(TimeUntilVanish[i]>0.1f)
+                if(TimeUntilVanish[i]>0.3f)
                 {
                    
                     if(vanishFlag[i])

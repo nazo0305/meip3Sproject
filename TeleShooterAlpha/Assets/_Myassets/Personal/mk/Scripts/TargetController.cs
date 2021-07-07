@@ -8,7 +8,7 @@ public class TargetController : MonoBehaviourPunCallbacks
     public int Id=-1;
     public TargetManager myManager;
     float colideTime = 0;
-    public float destroyTime = 0.5f;
+    public float destroyTime = 0.1f;
     // Start is called before the first frame update
     void Start()
     {

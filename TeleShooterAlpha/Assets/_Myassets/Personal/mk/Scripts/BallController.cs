@@ -10,7 +10,7 @@ public class BallController : MonoBehaviourPunCallbacks
     public BallManager myManager;
   
     float colideTime = 0;
-    public float destroyTime = 0.49f;
+    public float destroyTime = 0.1f;
     // Start is called before the first frame update
     void Start()
     {
