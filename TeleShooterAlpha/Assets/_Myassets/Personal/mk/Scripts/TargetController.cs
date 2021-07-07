@@ -31,10 +31,12 @@ public class TargetController : MonoBehaviourPunCallbacks
             colideTime += Time.deltaTime;
             if (colideTime > destroyTime)
             {
+                if (photonView.IsMine)
+                {
+                    myManager.AfterDestory(Id);
+                }
 
-
-                myManager.AfterDestory(Id);
-                Destroy(this.gameObject);
+                PhotonNetwork.Destroy(this.gameObject);
 
 
             }
