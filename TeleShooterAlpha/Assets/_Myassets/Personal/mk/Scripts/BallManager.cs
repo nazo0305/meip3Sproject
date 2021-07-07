@@ -10,10 +10,12 @@ public class BallManager: MonoBehaviourPunCallbacks
     public int ball_now;
     public GameObject[] ballArray = new GameObject[3] { null,null,null };//とりあえず3個
     public bool[] ballFlag = new bool[3] { false, false, false };
+    public bool[] vanishFlag = new bool[3] { true, true, true };
     Translate Translate;
     [SerializeField] GameObject canvas;
     bool joinFlag=false;
-    ScoreCount scoreCount;
+    public ScoreCount scoreCount;
+    float[] TimeUntilVanish = new float[3];
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +29,8 @@ public class BallManager: MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if(joinFlag)
+        CheckVanish();
+        if (joinFlag)
         {
             for (int i = 0; i < 3; i++)
             {
@@ -55,6 +58,7 @@ public class BallManager: MonoBehaviourPunCallbacks
         //的の目標を検知
         ballArray[ballId]=ball;
         ballFlag[ballId] = true;
+        vanishFlag[ballId] = true;
         ball.GetComponent<BallController>().Id = ballId;
         ball.GetComponent<BallController>().myManager = this;
 
@@ -78,7 +82,9 @@ public class BallManager: MonoBehaviourPunCallbacks
     public void AfterDestory(int Id)
     {
         scoreCount.AddScore();
-        StartCoroutine(FlagDown(Id));
+        //StartCoroutine(FlagDown(Id));
+        ballArray[Id] = null;
+        ballFlag[Id] = false;
     }
 
 
@@ -93,6 +99,33 @@ public class BallManager: MonoBehaviourPunCallbacks
         ballFlag[Id] = false;
 
       
+    }
+
+    void CheckVanish()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (ballFlag[i] && !(Translate.target_Flag[i]))
+            {
+                TimeUntilVanish[i] += Time.deltaTime;
+                Debug.Log("vanish");
+                if (TimeUntilVanish[i] > 0.1f)
+                {
+
+                    if (vanishFlag[i])
+                    {
+                        ballArray[i].GetComponent<BallController>().Dest();
+                    }
+                    AfterDestory(i);
+                    vanishFlag[i] = false;
+
+                }
+            }
+            else
+            {
+                TimeUntilVanish[i] = 0;
+            }
+        }
     }
 
     public override void OnConnectedToMaster()
