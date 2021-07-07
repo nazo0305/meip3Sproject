@@ -17,6 +17,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     [SerializeField]GameObject canvas;
     bool joinFlag = false;
     float[] TimeUntilVanish=new float[3];
+    ScoreCount scoreCount;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
         count = 0;     //認識されている四角形
         target_now = 0; //的オブジェクトの数(爆発エフェクト等含む)
         Translate = this.gameObject.GetComponent < Translate > ();
+        scoreCount = this.gameObject.GetComponent<ScoreCount>();
 
     }
 
@@ -56,7 +58,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
                 }
 
             }
-
+        
             TargetMove();
         }
 
@@ -93,7 +95,7 @@ public class TargetManager : MonoBehaviourPunCallbacks
     public void AfterDestory(int Id)
     {
         destroyFlag[Id] = true;
-        this.gameObject.GetComponent<ScoreCount>().AddScore();
+        scoreCount.AddScore();
         StartCoroutine(FlagDown(Id));
     }
 
