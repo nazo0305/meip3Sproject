@@ -11,7 +11,7 @@ public class ScoreCount : MonoBehaviour
    
     public void AddScore()
     {
-        score++;
+        score+=100;
     }
 
     void Update()

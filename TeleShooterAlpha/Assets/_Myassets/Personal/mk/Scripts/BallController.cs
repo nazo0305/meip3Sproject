@@ -10,7 +10,7 @@ public class BallController : MonoBehaviourPunCallbacks
     public BallManager myManager;
   
     float colideTime = 0;
-    public float destroyTime = 0.5f;
+    public float destroyTime = 0.49f;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +39,7 @@ public class BallController : MonoBehaviourPunCallbacks
 
                 }
                 PhotonNetwork.Instantiate("BreakEffect", this.gameObject.transform.position, Quaternion.identity);
-                PhotonNetwork.Destroy(this.gameObject);
+               // PhotonNetwork.Destroy(this.gameObject);
                 Dest();
             }
 
@@ -48,7 +48,7 @@ public class BallController : MonoBehaviourPunCallbacks
     }
     public void Dest()
     {
-        Debug.Log("delete");
+        Debug.Log("deleteBall");
         PhotonNetwork.Destroy(this.gameObject);
     }
 

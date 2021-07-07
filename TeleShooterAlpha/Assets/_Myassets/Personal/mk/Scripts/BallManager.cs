@@ -81,9 +81,10 @@ public class BallManager: MonoBehaviourPunCallbacks
 
     public void AfterDestory(int Id,bool isColision)
     {
-        scoreCount.AddScore();
+        
         if(isColision)
         {
+            scoreCount.AddScore();
             StartCoroutine(FlagDown(Id));
         }
         
