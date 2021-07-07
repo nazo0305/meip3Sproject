@@ -4,9 +4,9 @@ import basicFunctions as bf
 
 
 # 色範囲の指定(HSV)
-blueMin = [90, 140, 160]
+blueMin = [90, 80, 80]
 blueMax = [150, 255, 255]
-greenMin = [50, 140, 150]
+greenMin = [50, 80, 80]
 greenMax = [90, 255, 255]
 yellowMin = [25, 80, 100]
 yellowMax = [36, 255, 255]
@@ -42,19 +42,19 @@ def main(mode):
             #     pass
 
             # 疑似円検出
-            ballNum = 3
+            ballNum = 2
             # cv2.ellipse(frame, bf.getCenterAndRadius(hsv, redMin2, redMax2), (0, 255, 255))
 
-            # 赤色のボール
-            try:
-                cx, cy, area = bf.detect_red_color(frame)
-                point = bf.calculateRectCornerByCenter(cx, cy)
-                r = np.sqrt(area/np.pi)
-                point = point.astype(np.int32)
-                frame = bf.drawContour(point, frame)
-                sendItem += "{} {} {} {}\n".format("0", int(cx), int(cy), int(r))
-            except TypeError:
-                ballNum -= 1
+            # # 赤色のボール
+            # try:
+            #     cx, cy, area = bf.detect_red_color(frame)
+            #     point = bf.calculateRectCornerByCenter(cx, cy)
+            #     r = np.sqrt(area/np.pi)
+            #     point = point.astype(np.int32)
+            #     frame = bf.drawContour(point, frame)
+            #     sendItem += "{} {} {} {}\n".format("0", int(cx), int(cy), int(r))
+            # except TypeError:
+            #     ballNum -= 1
 
             # # 黄色のボール
             # try:
@@ -221,5 +221,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[1]  # 0ならshooter, 1ならtarget
+    mode = modes[0]  # 0ならshooter, 1ならtarget
     main(mode)
