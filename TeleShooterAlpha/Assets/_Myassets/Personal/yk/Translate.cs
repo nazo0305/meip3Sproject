@@ -77,7 +77,6 @@ public Vector2 TransformToValidRange(Vector2 ValidOrigin, Vector2 reduction_rate
     x_newVect = -1*((raw_vector[0] - error[0]) - 320) / (reduction_rate[0] * 100);
     y_newVect = -1*(-(raw_vector[1] - error[1]) + 240) / (reduction_rate[1] * 100);
     Vector2 position = new Vector2(x_newVect, y_newVect);
-        Debug.Log(position[0]);
     return position;
 }
 
