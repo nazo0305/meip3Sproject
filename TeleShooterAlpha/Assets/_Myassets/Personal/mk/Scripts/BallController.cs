@@ -30,18 +30,26 @@ public class BallController : MonoBehaviourPunCallbacks
             colideTime += Time.deltaTime;
             if (colideTime > destroyTime)
             {
-                
-                    PhotonNetwork.Instantiate("BreakEffect", this.gameObject.transform.position, Quaternion.identity);
+
+
                 if (photonView.IsMine)
                 {
+                    myManager.scoreCount.AddScore();
                     myManager.AfterDestory(Id);
-                }
-                PhotonNetwork.Destroy(this.gameObject);
 
+                }
+                PhotonNetwork.Instantiate("BreakEffect", this.gameObject.transform.position, Quaternion.identity);
+                PhotonNetwork.Destroy(this.gameObject);
+                Dest();
             }
 
         }
        
+    }
+    public void Dest()
+    {
+        Debug.Log("delete");
+        PhotonNetwork.Destroy(this.gameObject);
     }
 
     void OnTriggerExit(Collider other)

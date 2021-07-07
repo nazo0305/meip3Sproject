@@ -34,6 +34,8 @@ public class UDP : MonoBehaviour
         //多分Replace処理は分けないと死
         string[] arr = text.Split('\n');
         //的の処理
+        bool[] tInfoFlag= { false, false, false };
+        bool[] bInfoFlag = { false, false, false };
         targetcount = int.Parse(arr[i]);
         i++;
         for (int j = 0; j < targetcount; j++)
@@ -41,12 +43,20 @@ public class UDP : MonoBehaviour
             string[] arr_posi = arr[i].Split(' ');
             int target_infoID = int.Parse(arr_posi[0]);
             target_infoFlag[target_infoID] = true;
+            tInfoFlag[target_infoID] = true;
             Debug.Log("target_infoFlag=" + target_infoID + target_infoFlag[target_infoID]);
             for (int k = 1; k < 9; k++)
             {
                 target_infoPosition[target_infoID, k - 1] = float.Parse(arr_posi[k]);
             }
             i++;
+        }
+        for (int j = 0; j < 3; j++)
+        {
+            if(!(tInfoFlag[j]))
+            {
+                target_infoFlag[j] = false;
+            }
         }
 
         //ボールの処理
@@ -58,6 +68,7 @@ public class UDP : MonoBehaviour
             string[] arr_posi = arr[i].Split(' ');
             int ball_infoID = int.Parse(arr_posi[0]);
             ball_infoFlag[ball_infoID] = true;
+            bInfoFlag[ball_infoID] = true;
             for (int k = 1; k < 3; k++)
             {
                 ball_infoPosition[ball_infoID, k - 1] = float.Parse(arr_posi[k]);
@@ -65,13 +76,15 @@ public class UDP : MonoBehaviour
             
             i++;
         }
-
-        for (i = 0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
         {
-           // ball_infoFlag[i] = false;
-            //target_infoFlag[i] = false;
-
+            if (!(bInfoFlag[j]))
+            {
+                ball_infoFlag[j] = false;
+            }
         }
+
+      
       
     }
 }

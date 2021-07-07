@@ -31,18 +31,27 @@ public class TargetController : MonoBehaviourPunCallbacks
             colideTime += Time.deltaTime;
             if (colideTime > destroyTime)
             {
+                
                 if (photonView.IsMine)
                 {
+                    myManager.scoreCount.AddScore();
                     myManager.AfterDestory(Id);
+                   
                 }
-
                 PhotonNetwork.Destroy(this.gameObject);
+                Dest();
 
 
             }
 
         }
         
+    }
+
+    public void Dest()
+    {
+        Debug.Log("delete");
+        PhotonNetwork.Destroy(this.gameObject);
     }
 
     void OnTriggerExit(Collider other)
