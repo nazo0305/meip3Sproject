@@ -36,7 +36,8 @@ public class TargetController : MonoBehaviourPunCallbacks
                 {
                     myManager.scoreCount.AddScore();
                     myManager.AfterDestory(Id,true);
-                   
+                    PhotonNetwork.Instantiate("BreakEffect", this.gameObject.transform.position, Quaternion.identity);
+
                 }
                 //PhotonNetwork.Destroy(this.gameObject);
                 Dest();
