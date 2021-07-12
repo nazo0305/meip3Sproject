@@ -74,6 +74,7 @@ public class BallManager: MonoBehaviourPunCallbacks
             if (ballArray[i] != null)
             {
                 ballArray[i].transform.position = ballPosition[i];
+                scoreCount.AddScore();
             }
 
         }
@@ -128,7 +129,10 @@ public class BallManager: MonoBehaviourPunCallbacks
             else
             {
                 TimeUntilVanish[i] = 0;
-            }
+               
+
+
+}
         }
     }
 

@@ -10,7 +10,7 @@ public class BallController : MonoBehaviourPunCallbacks
     public BallManager myManager;
   
     float colideTime = 0;
-    public float destroyTime = 0.1f;
+    public float destroyTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +20,8 @@ public class BallController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
+       
+
     }
 
     void OnTriggerStay(Collider other)

@@ -166,4 +166,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: -1
   myManager: {fileID: 0}
-  destroyTime: 0.5
+  destroyTime: 0.1
