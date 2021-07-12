@@ -24,7 +24,7 @@ public class BallController : MonoBehaviourPunCallbacks
 
     }
 
-    void OnTriggerStay(Collider other)
+    /*void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag == "Target")
         {
@@ -46,7 +46,7 @@ public class BallController : MonoBehaviourPunCallbacks
 
         }
        
-    }
+    }*/
     public void Dest()
     {
         Debug.Log("deleteBall");

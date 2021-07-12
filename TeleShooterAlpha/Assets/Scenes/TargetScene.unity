@@ -714,8 +714,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1740244973199233894, guid: 0e00f08fefcb0564699c3b01439179f7,
         type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233894, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233894, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -100
+      value: -200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233894, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233895, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233895, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233895, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233895, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 1740244973199233895, guid: 0e00f08fefcb0564699c3b01439179f7,
         type: 3}
@@ -725,7 +760,7 @@ PrefabInstance:
     - target: {fileID: 1740244973199233895, guid: 0e00f08fefcb0564699c3b01439179f7,
         type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 25
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e00f08fefcb0564699c3b01439179f7, type: 3}
@@ -879,6 +914,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8241630703892375965, guid: bf7d4e1724172e84a9b8745b19254747,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241630703892375965, guid: bf7d4e1724172e84a9b8745b19254747,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8241630703892375965, guid: bf7d4e1724172e84a9b8745b19254747,
         type: 3}
       propertyPath: m_LocalPosition.z
