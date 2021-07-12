@@ -630,6 +630,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233894, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233894, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233895, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740244973199233895, guid: 0e00f08fefcb0564699c3b01439179f7,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e00f08fefcb0564699c3b01439179f7, type: 3}
 --- !u!114 &1684758420 stripped
@@ -732,3 +752,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1684758420}
+  mulscore: 1

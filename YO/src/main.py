@@ -221,5 +221,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[1]  # 0ならshooter, 1ならtarget
+    mode = modes[0]  # 0ならshooter, 1ならtarget
     main(mode)

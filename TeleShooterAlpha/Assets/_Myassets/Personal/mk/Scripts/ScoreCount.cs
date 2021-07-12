@@ -7,11 +7,12 @@ public class ScoreCount : MonoBehaviour
 {
     int score = 0;
     public Text scoreText;
+    [SerializeField] int mulscore=100;
 
    
     public void AddScore()
     {
-        score+=100;
+        score+=mulscore;
     }
 
     void Update()
