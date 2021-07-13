@@ -151,15 +151,15 @@ def main(mode):
 
             # get Rectangle Position by Color
             ## red
-            try:
-                cx, cy, _ = bf.detect_red_color(frame)
-                point = bf.calculateRectCornerByCenter(cx, cy)
-                point = point.astype(np.int32)
-                frame = bf.drawContour(point, frame)
-                sendItem = bf.writeCorners("0", point, sendItem)
-                rectCount += 1
-            except TypeError:
-                pass
+            # try:
+            #     cx, cy, _ = bf.detect_red_color(frame)
+            #     point = bf.calculateRectCornerByCenter(cx, cy)
+            #     point = point.astype(np.int32)
+            #     frame = bf.drawContour(point, frame)
+            #     sendItem = bf.writeCorners("0", point, sendItem)
+            #     rectCount += 1
+            # except TypeError:
+            #     pass
 
             # ## yellow
             # try:
@@ -221,5 +221,5 @@ def main(mode):
 
 if __name__ == "__main__":
     modes = ["shooter", "target"]
-    mode = modes[0]  # 0ならshooter, 1ならtarget
+    mode = modes[1]  # 0ならshooter, 1ならtarget
     main(mode)
